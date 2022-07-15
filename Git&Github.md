@@ -132,7 +132,7 @@ origin : 변경은 가능한데 다들 origin으로 쓰니까 그냥 origin으�
 
 branch → commit들이 쌓이고 있는 flow 지금은 master
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6a5dbeda-0859-438f-b465-d969cdbcb24a/Untitled.png)
+![Untitled]([https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6a5dbeda-0859-438f-b465-d969cdbcb24a/Untitled.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/07ef63b5-6a1c-44d0-9d86-49aa04efa904/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220715%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220715T044014Z&X-Amz-Expires=86400&X-Amz-Signature=caf873cfca425a01c4986ee723e40ecb21d6b52b42b1d28eed0ae8c64747112c&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject))
 
 
 
