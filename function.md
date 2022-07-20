@@ -90,3 +90,81 @@ family(father = "아버지", mother = "어머니")
 ```
 
 *args와 **kwargs는 같이 받을 수 있음
+
+## Scope
+
+함수는 코드 내부에 local scope(함수가 만든 것이기에 함수 내부에서만 접근)를 생성
+
+그 외에는 global scope(코드 어디에서든 참조 가능)로 구분
+
+### 변수의 수명
+
+built-in : 파이썬 실행 후 영원히 유지
+
+global scope : 모듈이 호출된 이후 인터프리터가 끝날 때(실행이 끝날 때)까지 유지
+
+local scope : 함수 호출 ~ 종료
+
+```python
+print(sum(range(2))) # 함수인 sum (built-in)
+sum = 5              # 변수가 되어버린 sum (global scope)
+print(sum(range(2))) # int 변수에 range()를 쓸 수 없슴
+```
+
+우선 순위 : local > enclosed(지역 범위 한단계 위) > global > built-in
+
+### global
+
+local scope인 함수 내에서 global scope인 바깥의 변수를 사용하거나 수정하고 싶을 때
+
+global 변수명을 통해 global 변수를 사용하겠다 선언!!
+
+```python
+a = 10
+def a_fun():
+	global a
+	a = 3
+
+print(a) # 10
+a_fun()
+print(a) # 3
+```
+
+### nonlocal
+
+global을 제외하고 가장 가까운 scope의 변수를 연결
+
+### map
+
+map(function, iterable)
+
+### filter
+
+filter(function, iterable)
+
+순회 가능한 데이터 구조의 모든 요소를 함수에 적용하고 True인 요소를 반환
+
+### zip
+
+복수의 데이터구조를 모아 튜플을 원소로하는 zip object 반환
+
+```python
+a = [1,2]
+b = [3,4]
+ab = list(zip(a,b))
+print(ab)    # [(1,2),(3,4)]
+```
+
+### lambda
+
+```python
+def add(a,b):
+	return a+b
+add = lambda a, b : a + b
+```
+
+## 재귀 함수
+
+자기 자신을 호출하는 함수
+
+무한한 호출이 목표가 아님
