@@ -7,6 +7,7 @@
 4. [반복문](https://github.com/vinitus/TIL/blob/main/for_while_if.md)
 5. [함수](https://github.com/vinitus/TIL/blob/main/function.md)
 6. [모듈과 패키지](https://github.com/vinitus/TIL/blob/main/module_package.md)
+7. [gitignore](https://github.com/vinitus/TIL/blob/main/gitignore.md)
 
 
 ### algorithm
