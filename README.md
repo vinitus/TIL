@@ -10,4 +10,4 @@
 
 
 ### algorithm
-1. [sort]()
+1. [sort](https://github.com/vinitus/TIL/blob/main/sort.md)
