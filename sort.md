@@ -225,3 +225,159 @@
         ```
         
     2. **힙 정렬(Heap sort)**
+        
+        완전 이진 트리로 이루어진 자료구조
+        
+        - 최소, 최대 힙
+            
+            부모노드가 자식노드보다 크면 최대힙이고 반대면 최소힙
+            
+        
+        이진 트리 = 자식노드가 최대 2개인 트리
+        
+        완전 이진 트리 = 왼쪽부터 오른쪽 아래로 순서에 맞게 꽉 채워진 이진 트리
+        
+        힙에서 자식index에서 부모 index에 접근하려면 (자식idx - 1) // 2를 하면됨
+        
+        힙정렬은 최대힙에서 기반
+        
+        최대힙이면 배열 중 가장 큰 값이 맨위로 올라감 → 이를 마지막 요소와 바꿈
+        
+        다시 최대힙으로 만들고 이를 마지막 전 요소와 바꿈
+        
+        → for문 최대에서 0까지 순회하는 구조
+        
+        다시 최대힙으로 만들기
+        
+        → 1부터 바꾼 요소 전까지 = for (1,i)
+        
+        ```jsx
+        import random
+        
+        def make_heap(num_list):
+            pass
+            for i in range(1, len(num_list)):
+                while i > 0:
+                    target = (i - 1) // 2
+                    if num_list[i] > num_list[target]:
+                        num_list[i], num_list[target] = num_list[target], num_list[i]
+                    i = target
+            return num_list
+        
+        def heap_sort(num_list):
+            for i in range(len(num_list)-1,-1,-1):
+                num_list[i],num_list[0] = num_list[0],num_list[i]
+                for j in range(1, i):
+                    while j > 0:
+                        target = (j - 1) // 2
+                        if num_list[j] > num_list[target]:
+                            num_list[j], num_list[target] = num_list[target], num_list[j]
+                        j = target
+            return num_list
+        
+        n = 100
+        a = list(random.randint(1,n) for _ in range(n))
+        
+        print(a)
+        a = make_heap(a)
+        print(heap_sort(a))
+        ```
+        
+    3. **퀵 정렬(Quick sort)**
+        
+        평균적인 상황에서 최고의 성능
+        
+        리스트 전체를 for문으로 순회하며 피벗을 기준으로 리스트의 요소가 피벗보다 작으면 피벗보다 작은 list에 넣고 크면 큰 list에 넣고 같으면 equal list에 넣음
+        
+        그럼 equal list가 기준이 되어 작은 리스트들을 다시 퀵정렬하고 큰리스트도 퀵정렬
+        
+        ```jsx
+        import random
+        import time
+        import psutil
+        
+        def quick_sort(num_list):
+            if len(num_list) < 2:
+                return num_list
+            
+            pivot = num_list[len(num_list)//2]
+            
+            smaller_pivot = []
+            bigger_pivot = []
+            equal_pivot = []
+            for num in num_list:
+                if pivot > num:
+                    smaller_pivot.append(num)
+                elif pivot < num:
+                    bigger_pivot.append(num)
+                else:
+                    equal_pivot.append(num)
+            return quick_sort(smaller_pivot) + equal_pivot + quick_sort1(bigger_pivot)
+        
+        n = 1000000
+        a = list(random.randint(1,n) for _ in range(n))
+        
+        p = psutil.Process()
+        print(p.memory_info())
+        
+        b = a[:]
+        start = time.time()
+        a = quick_sort(a)
+        end = time.time()
+        print(end - start)
+        
+        p = psutil.Process()
+        print(p.memory_info())
+        ```
+        
+        문제는 리스트를 계속 만들다보니까 메모리를 많이 먹는다
+        
+        메모리 많이 안먹는 버전
+        
+        ```jsx
+        import random
+        import time
+        import psutil
+        
+        def partition(arr, start, end):
+            pivot = arr[start]
+            lower_point = start + 1
+            higher_point = end
+            stop_flag = False
+            while not stop_flag:
+                while lower_point <= higher_point and arr[lower_point] <= pivot:
+                    lower_point += 1
+                while lower_point <= higher_point and pivot <= arr[higher_point]:
+                    higher_point -= 1
+                if higher_point < lower_point:
+                    stop_flag = True
+                else:
+                    arr[lower_point], arr[higher_point] = arr[higher_point], arr[lower_point]
+            arr[start], arr[higher_point] = arr[higher_point], arr[start]
+            return higher_point
+        
+        def quick_sort(arr, start, end):
+            if start < end:
+                pivot = partition(arr, start, end)
+                quick_sort(arr, start, pivot - 1)
+                quick_sort(arr, pivot + 1, end)
+            return arr
+            
+        n = 1000000
+        a = list(random.randint(1,n) for _ in range(n))
+        
+        p = psutil.Process()
+        print(p.memory_info())
+        
+        start = time.time()
+        a = quick_sort(a,0,n-1)
+        end = time.time()
+        print(end - start)
+        
+        p = psutil.Process()
+        print(p.memory_info())
+        ```
+        
+        아래의 경우 몇바이트 안먹음 4000bytes정도??
+        
+        위는 8470528 bytes나 먹는다
