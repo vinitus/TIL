@@ -11,7 +11,7 @@
 8. [함수](https://github.com/vinitus/TIL/blob/main/function.md)
 9. [모듈과 패키지](https://github.com/vinitus/TIL/blob/main/module_package.md)
 10. [gitignore](https://github.com/vinitus/TIL/blob/main/gitignore.md)
-11. [데이터구조]
+11. [데이터구조](https://github.com/vinitus/TIL/blob/main/data_structure.md)
 12. [객체지향](https://github.com/vinitus/TIL/blob/main/OOP.md)
 
 ### algorithm
