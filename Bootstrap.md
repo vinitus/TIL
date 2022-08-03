@@ -68,7 +68,7 @@ A 형제의 모든 B
 
 ```markup
 <style>
-  A ~ B {
+  A + B {
     
   }
 </style>
@@ -170,7 +170,6 @@ absolute normal flow에서 벗어나서 부모 기준 위치로 옮겨감
 
 sticky 모니터에 스티커 붙은 것 처럼 안떨어짐
 
-
 ### float
 
 박스를 왼쪽, 오른쪽으로 이동시켜 텍스트를 포함한 인라인 요소들이 주변을 wrapping
@@ -180,7 +179,6 @@ sticky 모니터에 스티커 붙은 것 처럼 안떨어짐
 1. none : 기본값
 2. left : 요소를 왼쪽으로
 3. right : 오른쪽으로
-
 
 ### display:flex;
 
