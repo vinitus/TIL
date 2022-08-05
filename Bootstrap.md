@@ -1,3 +1,6 @@
+<head>
+<link href="../css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
 # bootstrap
 
 ### CDN
@@ -8,9 +11,9 @@ Content Delivery(Distribution) Network
 
 python의 import와 유사하다
 
-## Bootstrap 기본 원리
+## Bootstrap 기본 구조
 
-spacing - class=’{property}{sides}-{size}’  속성을 어느 방향으로 얼마나 줄것인가
+spacing - class='{property}{sides}-{size}'  속성을 어느 방향으로 얼마나 줄것인가
 
 m - margin, p - padding
 
@@ -39,3 +42,26 @@ a태그의 링크 없애기 : class=”text-decoration-none”
 fw-bold → 굵기를 굵게
 
 fst-itelic → font style
+
+### position
+position-(static, relative,absolute,fixed,sticky)
+
+**arange element**
+★부모가 static이 아니여야함
+top start bottom end
+
+box fixed-(top, bottom)
+
+__relative - absolute를 부모, 자식간에 써줘야 자식 요소는 부모 요소 내에서 움직임__
+
+### display
+d-(inline,block 등등)
+inline=요소의 크기만큼 박스 크기가 설정됨
+
+breakpoint를 활용한 반응형 display
+
+### Component
+**Button**
+```html
+<div class="btn btn-light btn-outline-black">light</div>
+```
