@@ -61,7 +61,43 @@ inline=요소의 크기만큼 박스 크기가 설정됨
 breakpoint를 활용한 반응형 display
 
 ### Component
-**Button**
+Button
 ```html
 <div class="btn btn-light btn-outline-black">light</div>
 ```
+
+Dropdown
+
+Form
+
+Carousel 캐러셀
+이미지 넘기기
+
+Modal - pop-up창과는 다르게 다른 곳을 클릭해도 닫힘
+
+card
+
+## Grid system
+column : 실제 컨텐츠를 포함하는 부분
+gutter : 칼럼과 칼럼 사이의 공간
+container : column들을 담고 있는 공간
+
+__12개의 col과 6개의 grid breakpoint__
+
+### grid system breakpoints
+각각의 breakpoint에서 다르게 동작하는 시스템
+xs - 0이상
+sm - 576 이상
+md - 768 이상
+lg - 992 이상
+xl - 1200 이상
+xxl - 1400 이상
+
+col-n => 12개의 파티션 중 n만큼을 가짐
+하나의 row안에 n의 합이 12를 초과하면 다음 줄로 넘어감
+
+하나의 row,col 안의 row,col
+바깥의 grid 영역 내에서 다시 12분할 하는거임
+
+offset => 왼쪽부터 비우고 싶은 영역
+
