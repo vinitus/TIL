@@ -16,3 +16,6 @@
 
 ### algorithm
 1. [sort](https://github.com/vinitus/TIL/blob/main/sort.md)
+
+### CS
+1. [interupt](https://github.com/vinitus/TIL/blob/main/interupt.md)
