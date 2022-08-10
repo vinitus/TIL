@@ -85,7 +85,36 @@
         print(a)
         print(selection_sort(a))
         ```
-        
+
+
+        ### 선택 알고리즘
+
+        저장되어있는 자료로부터 k번째로 크거나 작은 원소를 찾는 방법
+
+        ```python
+        def selectionSort(arr,k):
+            for i in range(k):
+                minIdx = i
+                for j in range(i+1,len(arr)):
+                    if arr[minIdx] > arr[j]:
+                        minIdx = j
+                arr[i], arr[minIdx] = arr[minIdx], arr[i]
+        ```
+
+        ```python
+        N, M = 3, 4
+
+        arr1 = [0] * N
+
+        arr2 = list([0] * M for _ in range(N))
+
+        arr3 = [[0]*M]*N    # 이러면 얕은복사임 ㄴㄴ
+
+        arr = [list(map(int,input().split())) for _ in range(N)]
+        ```
+
+    ⭐ arr3 중요
+
     3. **삽입 정렬(Insertion sort)**
         
         k번째 원소를 k-1부터 0까지 비교해가며 n까지 반복하는 정렬
