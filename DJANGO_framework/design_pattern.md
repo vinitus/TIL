@@ -21,4 +21,3 @@ Model - Template - View
 1. model : **데이터**와 관련된 로직을 관리 - DB
 2. template : 레이아웃과 **화면**을 처리- HTML,CSS
 3. view : 명령을 model과 view 부분으로 **연결** - 중계자
-
