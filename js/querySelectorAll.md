@@ -15,7 +15,7 @@
       element.addEventListener('mouseover', function (event){
         console.log(event.target.classList)
         // number.setAttribute('style',`color: ${event.target.classList[1]};`)
-        number.style.color = event.target.classList[1]
+        number.style.color = evsent.target.classList[1]
       })
     })
     
