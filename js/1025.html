@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="1025_style.css">
+  <title>재미있는 JavaScript</title>
+</head>
+<body>
+  <div id="number">0</div>
+  <button id="minus">-</button>
+  <button id="plus">+</button>
+  <div id="first_box">
+    <input class="box red"></input>
+    <input class="box blue"></input>
+    <input class="box green"></input>
+  </div>
+  <script>
+    let number = document.querySelector("#number")
+    const minus = document.querySelector("#minus")
+    const plus = document.querySelector("#plus")
+    
+    minus.addEventListener("click",function (event) {
+      // number.innerText--   // 형변환이 일어난다
+      number.innerText = parseInt(number.innerText) - 1
+    })
+
+    plus.addEventListener("click",function (event) {
+      number.innerText++
+    })
+
+    // document.querySelector('red')
+    //   .addEventListener('mouseover', function () {
+    //     number.style.color = 'red'
+    //   })
+    // document.querySelector('blue')
+    //   .addEventListener('mouseover', function () {
+    //     number.style.color = 'blue'
+    //   })
+    //   document.querySelector('green')
+    //   .addEventListener('mouseover', function () {
+    //     number.style.color = 'green'
+    //   })
+
+    const box = document.querySelectorAll(".box")
+    // box.forEach((element) => {
+    //   element.addEventListener('click', function (event){
+    //     // console.log(event.target.classList)
+    //     // number.setAttribute('style',`color: ${event.target.classList[1]};`)
+    //     number.style.color = event.target.classList[1]
+    //   })
+    // })
+
+    box.forEach((element) => {
+      element.addEventListener('input', function (event) {
+        console.log(event.target.classList)
+        // number.setAttribute('style',`color: ${event.target.classList[1]};`)
+        number.style.color = event.target.classList[1]
+      })
+    })
+    window.addEventListener("load", function(event) {
+    console.log("All resources finished loading!");
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+#number {
+  font-size: 100px;
+}
+
+.box {
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  margin: 20px 10px;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
