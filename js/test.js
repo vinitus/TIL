@@ -14,7 +14,7 @@ classP.hi = function () {
   console.log(`hi class ${this.aa}`)
 }
 
-funcP.hi = function () {
+funcP.hello = function () {
   console.log(`hi func ${this.aa}`)
 }
 
