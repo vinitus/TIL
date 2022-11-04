@@ -8,7 +8,7 @@ JS는 세미콜론 선택적 사용이 가능하나 ASI에 자동으로 세미�
 
 2칸. if, for, funtion은 중괄호로 감싼다.
 
-```jsx
+```js
 if (isClean) {
 	console.log('clean!')
 }
@@ -22,7 +22,7 @@ Airbnb Style Guide, Google Style Guide, standardJavaScript
 
 // or /* */
 
-```jsx
+```js
 // 하이
 /*
 하이
@@ -54,7 +54,7 @@ Airbnb Style Guide, Google Style Guide, standardJavaScript
     
     재할당은 가능하나 재선언은 불가하다.
     
-    ```jsx
+    ```js
     let x = 10
     x = 20
     
@@ -79,7 +79,7 @@ Airbnb Style Guide, Google Style Guide, standardJavaScript
 
 변수 선언 이전에 참조가 가능해지는 현상
 
-```jsx
+```js
 console.log(x)
 
 var x = 100
@@ -101,7 +101,7 @@ var x = 100
 
 블록 스코프 = if, for, funtion 등의 중괄호 내부를 가르킨다
 
-```jsx
+```js
 let x = 1
 
 if (x === 1) {
@@ -119,7 +119,7 @@ console.log(x)   // 1
 
 1. Number - 정수, 실수형 **숫자**
 
-```jsx
+```js
 const a = 13
 const b = -5
 const c = 3.14
@@ -147,7 +147,7 @@ const g = NaN // Not a Number
     
     사칙연산 중 +만 가능하다~~
     
-    ```jsx
+    ```js
     const one = "vinitus"
     const two = 'github'
     const three = one + two
@@ -156,9 +156,9 @@ const g = NaN // Not a Number
 
 선언 중 따옴표 안에서 줄바꿈을 하려면 \n을 해야한다.
 
-```jsx
-const one = "vin
-itus"         // 이게 안됨
+```js
+// const one = "vin
+// itus"         // 이게 안됨
 
 const two = "vin \ntus" 이건 됨
 ```
@@ -169,7 +169,7 @@ Template Literal(` `)을 사용시 여러 줄에 걸쳐 문자열 정의가 된�
 
 ${변수명}을 통해 문자열 사이에 값을 넣을 수 있다.
 
-```jsx
+```js
 const one = `안녕
 하세요`
 
@@ -191,7 +191,7 @@ const three = `과자 ${two}개`
     
     변수 선언 후 직접 값을 **할당하지 않으면 자동으로** 할당
     
-    ```jsx
+    ```js
     let go = null   // null
     let gogo        // undefiend
     ```
@@ -201,7 +201,7 @@ const three = `과자 ${two}개`
 
 typeof 연산자를 통해 타입 확인시
 
-```jsx
+```js
 typeof null      // "object", 원시 타입임에도 object인 이유는 버그다
 typeof undefined // "undefined"
 ```
@@ -238,7 +238,7 @@ typeof undefined // "undefined"
     
     == . 이 연산자의 특징은 **암묵적 타입 변환**이 이뤄지는 것이다.
     
-    ```jsx
+    ```js
     const a = 1
     const b = '1'
     
@@ -249,7 +249,7 @@ typeof undefined // "undefined"
     
     === . 이는 **타입과 값** 모두 같아야 true
     
-    ```jsx
+    ```js
     const a = 1
     const b = 1
     const c = '1'
@@ -268,7 +268,7 @@ typeof undefined // "undefined"
     
     + 단축 평가를 지원한다!
     
-    ```jsx
+    ```js
     true && false // false
     true || false // true
     !true // false
@@ -288,7 +288,7 @@ typeof undefined // "undefined"
     
     전자 참 → 앞의 값 반환, 후자 참 → 뒤의 값 반환
     
-    ```jsx
+    ```js
     true ? 1 : 2 // 1
     false ? 1 : 2 // 2
     
@@ -302,7 +302,7 @@ if = 조건 표현식 결과값 boolean을 참, 거짓으로 판단
 
 1. if = 어느 값(case)에 해당하는지 판별
     
-    ```jsx
+    ```js
     const name = 'manager'
     
     if (name === 'admin') {
@@ -317,7 +317,7 @@ if = 조건 표현식 결과값 boolean을 참, 거짓으로 판단
 
 1. switch = 중괄호 {} 안에 작성되는 것을 블록 스코프라고 함
     
-    ```jsx
+    ```js
     const order = "first"
     
     switch(order) {
@@ -351,7 +351,7 @@ if = 조건 표현식 결과값 boolean을 참, 거짓으로 판단
     
     조건문이 참이면 문장 계속 수행
     
-    ```jsx
+    ```js
     let i = 0
     while (i < 6) {
     	console.log(i)
@@ -365,7 +365,7 @@ if = 조건 표현식 결과값 boolean을 참, 거짓으로 판단
     
     특정 조건이 거짓이기 전까지 반복
     
-    ```jsx
+    ```js
     for (let i = 0; i < 6; i++) {
     	console.log(i)
     }
@@ -379,7 +379,7 @@ if = 조건 표현식 결과값 boolean을 참, 거짓으로 판단
     
     배열도 순회 가능하나 인덱스 순으로 순회한다는 보장이 없음 → 권장 X
     
-    ```jsx
+    ```js
     const abcde = { a: 'apple', b: 'banana' }
     
     for (const key in abcde) {
@@ -394,7 +394,7 @@ if = 조건 표현식 결과값 boolean을 참, 거짓으로 판단
     
     array, set, string
     
-    ```jsx
+    ```js
     const abcde = ['a', 'b', 'c', 'd', 'e']
     
     for (const alphabet of abcde) {
@@ -421,7 +421,7 @@ JS에서 함수 정의법
     
     일반적인 프로그래밍 언어의 함수 정의 방식
     
-    ```jsx
+    ```js
     function add(a, b) {
       return a + b
     }
@@ -430,7 +430,7 @@ JS에서 함수 정의법
     
 2. 함수 표현식
     
-    ```jsx
+    ```js
     const sub = function (a, b) {
       return a - b
     }
@@ -439,7 +439,7 @@ JS에서 함수 정의법
     
     표현식에서 함수 이름 명시도 가능하다
     
-    ```jsx
+    ```js
     const sub = function funcSub(a,b) {
     ...
     ```
@@ -453,13 +453,13 @@ JS에서 함수 정의법
     
     인자 작성시 = 뒤에 선언 가능하다.
     
-    ```jsx
+    ```js
     const greeting = function (name = 'vinitus') {
       return `HI ${name}`
     }
     ```
     
-    ```jsx
+    ```js
     const noArgs = function() {
     	return 0
     }
@@ -488,7 +488,7 @@ JS에서 함수 정의법
     
     1. 배열과의 사용
         
-        ```jsx
+        ```js
         let parts = ['jeans', 'pants']
         let clothes = ['cap', ...parts, 'shoes']
         // ['cap', 'jeans', 'pants', 'shoes']
@@ -496,7 +496,7 @@ JS에서 함수 정의법
         
     2. 함수와의 사용
         
-        ```jsx
+        ```js
         const rest0pr = function (a,b, ...restArgs) {
         	return [a, b, restArgs]
         }
@@ -510,7 +510,7 @@ JS에서 함수 정의법
     
     1. 함수 타입
         
-        ```jsx
+        ```js
         const add = function (args) { } // 함수 표현식
         
         function sub(args) { }    // 함수 선언식
@@ -531,7 +531,7 @@ JS에서 함수 정의법
         3. 함수 내용이 한 줄이라면 ‘{ }’ 와 return 생략 가능
         4. 화살표 함수는 익명 함수이다.
         
-        ```jsx
+        ```js
         const arrow1 = function (name) {
         	return `hello, ${name}`
         }
@@ -545,7 +545,7 @@ JS에서 함수 정의법
         // 하지만 인자 주위에는 괄호 사용 권장
         ```
         
-        ```jsx
+        ```js
         let noArgs = () => 'No args'
         
         let returnObject = () => { return { key: 'value'} }
@@ -561,7 +561,7 @@ JS에서 함수 정의법
         
         보통 초기화 부분에 많이 사용한다
         
-        ```jsx
+        ```js
         (function(num) { return num ** 3})(2) // 8
         
         (num => num ** 3)(2) // 8
@@ -600,7 +600,7 @@ JS에서 함수 정의법
         
         separator(구분자)는 선택적으로 지정가능, 생략 시 쉼표 기본값으로 사용
         
-        ```jsx
+        ```js
         const a = [1,2,3,4,5]
         
         console.log(a.join()) // 1,2,3,4,5
@@ -612,7 +612,7 @@ JS에서 함수 정의법
 
 1. **callback 함수**
     
-    ```jsx
+    ```js
     array.forEach((element, index, array) => {
     	// functions do something in here
     })
@@ -646,7 +646,7 @@ JS에서 함수 정의법
     // green 2 ['red', 'blue', 'green']
     ```
     
-    ```jsx
+    ```js
     array.map((element, index, array) => {
     	// 요소, 인덱스, 배열 자체
     })
@@ -676,7 +676,7 @@ JS에서 함수 정의법
     
     every는 some과 다르게 **모든** 요소가 통과
     
-    ```jsx
+    ```js
     array.reduce((acc, element, index, array) => {
     	// do something
     }, initialValue)
@@ -725,7 +725,7 @@ key 이름에 띄어쓰기가 있다면 대괄호만 가능하다
 
 1. 속성명 축약
     
-    ```jsx
+    ```js
     const abc = ['a', 'b', 'c']
     const onetwothree = [1,2,3]
     const abconetwothree = {
@@ -752,7 +752,7 @@ key 이름에 띄어쓰기가 있다면 대괄호만 가능하다
     객체 정의시 key 이름을 표현식을 이용하여 동적 생성 가능
     
 
-```jsx
+```js
 const wow = "wowowowow"
 const ToT = "ToToToT"
 const obj = {
@@ -764,7 +764,7 @@ console.log(obj)
 
 1. 구조 분해 할당
     
-    ```jsx
+    ```js
     const obj2 = {
     	name: "vinitus"
     }
@@ -779,7 +779,7 @@ console.log(obj)
 
 1. Spread syntax (…)
     
-    ```jsx
+    ```js
     const btoc = {b: 'b', c: 'c'}
     const atod = {a: 'a', ...btoc, d: 'd'}
     
