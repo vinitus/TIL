@@ -66,7 +66,8 @@
       let options = {
         root: null,
         rootMargin: "100px",
-        threshold: buildThresholdList()
+        // threshold: buildThresholdList()
+        threshold: 1.0
       };
 
       observer = new IntersectionObserver(handleIntersect, options);
@@ -87,8 +88,6 @@
       return thresholds;
     }
     function handleIntersect(entries, observer) {
-      console.log(entries)
-      console.log(observer)
       entries.forEach((entry) => {
         if (entry.intersectionRatio > prevRatio) {
           entry.target.style.backgroundColor = increasingColor.replace("ratio", entry.intersectionRatio);
