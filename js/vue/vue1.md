@@ -36,7 +36,7 @@ CSR 왜 써
 
 검색 엔진 최적화(SEO)가 어렵다.
 
-SPA 서비스 중 SSR 지원 Framework 
+SPA 서비스 중 SSR 지원 Framework
 
 Vue의 Nuxt.js, React의 Next.js
 
@@ -58,64 +58,58 @@ Vue의 문법들
 
 1. el은 쿼리셀렉터같은 것
 2. data
-    
-    Vue instance의 데이터 객체 혹은 인스턴스 속성
-    
-    **데이터 객체는 반드시 기본 객체 { } Object여야 한다**
-    
+
+   Vue instance의 데이터 객체 혹은 인스턴스 속성
+
+   **데이터 객체는 반드시 기본 객체 { } Object여야 한다**
 
 ```jsx
-<div id="app">
-  {{ message }}
-</div>
+;<div id="app">{{ message }}</div>
 
 const app = new Vue({
-	el: '#app',
+  el: "#app",
   data: {
-    message: 'Hello, Vue!'
+    message: "Hello, Vue!",
   },
 })
 ```
 
 1. methods
-    
-    ```jsx
-    <div id="app">
-      {{ message }}
-    </div>
-    
-    const app = new Vue({
-    	el: '#app',
-      data: {
-        message: 'Hello, Vue!'
-      },
-    	methods: {
-        print: function () {
-          console.log(this.message)
-        },
-    		bye: function () {
-          this.message = 'Bye, Vue!'
-        },
-    		arrowBye: () => {
-          this.message = 'Arrow Function?'
-          console.log(this)
-        }
-    	}
-    })
-    ```
-    
-    Object 처럼 선언할 수 있음
-    
-    this 사용에 주의할 것!
-    
-    data는 data.~를 통해서 키값에 접근할 필요가 없다
-    
-    data값을 함수를 통해 바꿀 수 있음
-    
-    ⭐ arrow function을 사용하면 Arrow Function을 사용해선 안된다
-    
-    this가 바인딩되었기에 app의 한단계 위 스코프인 window를 가리키기 때문
-    
+
+   ```jsx
+   ;<div id="app">{{ message }}</div>
+
+   const app = new Vue({
+     el: "#app",
+     data: {
+       message: "Hello, Vue!",
+     },
+     methods: {
+       print: function () {
+         console.log(this.message)
+       },
+       bye: function () {
+         this.message = "Bye, Vue!"
+       },
+       arrowBye: () => {
+         this.message = "Arrow Function?"
+         console.log(this)
+       },
+     },
+   })
+   ```
+
+   Object 처럼 선언할 수 있음
+
+   this 사용에 주의할 것!
+
+   data는 data.~를 통해서 키값에 접근할 필요가 없다
+
+   data값을 함수를 통해 바꿀 수 있음
+
+   ⭐ arrow function을 사용하면 Arrow Function을 사용해선 안된다
+
+   this가 바인딩되었기에 app의 한단계 위 스코프인 window를 가리키기 때문
 
 Interpolation
 
@@ -429,15 +423,14 @@ v-bind
 HTML에 Vue data를 연결하는 법
 
 1. 조건부 바인딩
-    
-    { ‘class Name’: ‘조건 표현식’}
-    
-    tkagkddustkswkeh rksmdgkek
-    
+
+   { ‘class Name’: ‘조건 표현식’}
+
+   tkagkddustkswkeh rksmdgkek
+
 2. 다중 바인딩
-    
-    [’JS 표현식’, ’JS 표현식’, …]
-    
+
+   [’JS 표현식’, ’JS 표현식’, …]
 
 : → v-bind shortcut
 
@@ -592,7 +585,7 @@ Vue data 변경 시 v-model로 연결된 사용자 입력 element에도 적용�
 
 computed
 
-Vue instance property 중 하나, 미리 계산한 **값**을 ****사용
+Vue instance property 중 하나, 미리 계산한 **값**을 \*\*\*\*사용
 
 계산 결과가 변하기 전까진 함수를 재호출하는 것이 아니라 계산된 값을 반환한다.
 
