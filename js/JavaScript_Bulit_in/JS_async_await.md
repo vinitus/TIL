@@ -4,7 +4,7 @@
 
 [async function 공식문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/async_function)
 
-async는 function을 비동기 함수로 정의해주는 선언으로써 암시적으로 Promise를 사용하여 Promise객체를 반환한다. 따라서 비동기 처리를 동기적으로 체이닝해서 처리할 수 있게 해주는 then과 같지만 조금 더 깔끔하게 코드를 구성해주는 의의가 있다.
+async는 function을 비동기 함수로 정의해주는 선언으로써 암시적으로 Promise를 사용하여 Promise객체를 반환한다. 따라서 function의 return을 new Promise를 통해 Promise 객체를 만드는 것과 유사하나 코드를 간결하게 바꿔주기 때문에 코드를 구현하는데 있어서 편리하고 또, 가시적으로 보기 좋게 만들어준다.
 
 ### async는 사실 Promise랑 같다
 
@@ -24,7 +24,7 @@ function one() {
 
 [await 공식문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/await)
 
-await는 Promise를 기다리기 위해 사용한다 = then과 같다. 하지만 async function내에서만 사용할 수 있다는 것과 이전 요청의 return 값을 값에 할당할 수 있다는 점이다.
+await는 Promise를 기다리기 위해 사용한다 = then과 같다. 하지만 async function내에서만 사용할 수 있다는 것과 이전 요청의 return 값을 값에 할당할 수 있다는 점이다. 따라서 비동기 처리를 동기적으로 체이닝해서 처리할 수 있게 해주는 then과 같지만 조금 더 깔끔하게 코드를 구성해주는 의의가 있다.
 
 ### await도 then과 같다
 
