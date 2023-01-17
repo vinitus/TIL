@@ -106,4 +106,3 @@ endOfDay(), endOfWeek(), endOfMonth(), endOfYear()
 startOfDay(), startOfWeek(), startOfMonth(), startOfYear()
 
 ### Agile Board
-
