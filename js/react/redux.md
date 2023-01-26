@@ -2,22 +2,22 @@
 
 ## 1. What is Redux
 
-redux는 cross component와 app wide state를 위한 상태관리시스템이다.
+**redux**는 cross component와 app wide state를 위한 상태관리시스템이다.
 <br>
 
 #### react state의 3가지 상태
 
 ##### 1. Local State
 
-state가 하나의 컴포넌트에만 영향을 미치는 상태
-ex) useState를 활용하여 상태가 변하면 state에 저장하거나 UI를 변경하는 것
+state가 **하나의 컴포넌트에만** 영향을 미치는 상태
+ex) `useState를` 활용하여 상태가 변하면 state에 저장하거나 UI를 변경하는 것
 
 -> 1 state - 1 component
 <br>
 
 ##### 2. cross-component state
 
-state가 다수의 컴포넌트에 영향을 미치는 경우
+state가 **다수의 컴포넌트에** 영향을 미치는 경우
 ex) modal overlay같은 경우
 prop을 통해 컴포넌트 간의 데이터를 넘기는 경우도 포함
 
@@ -26,7 +26,7 @@ prop을 통해 컴포넌트 간의 데이터를 넘기는 경우도 포함
 
 ##### 3. App-Wide State
 
-다수가 아닌 모든 컴포넌트에 영향을 끼치는 state
+다수가 아닌 **모든 컴포넌트에** 영향을 끼치는 state
 ex) 로그인 인증 관리
 
 prop chaining을 통해 데이터를 넘기고 받음
@@ -40,7 +40,7 @@ context API도 마찬가지!
 #### context의 잠재적 단점
 
 해당하는 단점이 앱에서 critical하게 적용되지 않는다면 사용해도 상관없다.
-또한 중요 컴포넌트에는 직접 context API를 써서 관리하는 혼합 방식도 상관없다.
+또한 중요 컴포넌트에는 직접 `context API`를 써서 관리하는 혼합 방식도 상관없다.
 <br>
 
 ##### 1. 복잡한 설정과 관리
@@ -66,8 +66,8 @@ React 개발 팀원의 말에 따르면 state가 자주 변경된다면 적합�
 3.단방향 데이터 흐름을 가졌다면 데이터를 어떻게 변경할까?
 reducer function -> 입력을 받아 입력을 변환하고 반환
 
-reducer와 component를 연결하는 법 -> dispatch
-어떤 행위를 할지를 알려주는 것 -> action
+reducer와 component를 연결하는 법 -> `dispatch`
+어떤 행위를 할지를 알려주는 것 -> `action`
 dispatch하고 리듀서에 전달해서 새로운 state가 나오면 중앙 저장소의 state를 update하고 subscribe 함수 실행
 
 ```js
@@ -77,7 +77,7 @@ reducer function(oldState, dispatchedAction)
 reducer function의 리턴은 항상 새로운 state 객체를 만들어야만 한다.
 -> 만약 동일한 입력을 넣으면 동일한 출력이 나와야한다.
 
-그렇기에 reducer는 HTTP request나 local storage에서 무언가를 가져오는 등의 부수적인 효과가 없는 순수한 함수여야 한다.
+그렇기에 reducer는 HTTP request나 local storage에서 무언가를 가져오는 등의 부가적인 효과가 없는 순수한 함수여야 한다.
 대신 reducer는 redux가 제공하는 입력을 이용해 무언가를 한다!
 <br>
 
