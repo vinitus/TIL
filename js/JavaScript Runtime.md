@@ -2,7 +2,7 @@ JS는 그 자체는 **싱글 스레드 언어**이다.
 
 흔히들 검색하면 나오는 그런 그림을 생각하지 않고 JS 엔진 그 자체만 본다면 JS에는 stack과 heap 메모리만 존재한다.
 
-![image](https://github.com/vinitus/leetcode-js-30days-editorial/assets/97886013/41412554-efd3-4b1c-9574-f16190a018eb)
+![image](https://github.com/vinitus/TIL/assets/97886013/3ddd617d-84e5-45f4-b636-82c450336d20)
 
 힙은 객체가 할당되는 영역이니까 이벤트 루프와 런타임에선 생각하지 않아도 되어 제외한다면, 스택 하나만 남는다.
 
@@ -27,7 +27,7 @@ funcA();
 
 이 코드는 다음과 같은 콜 스택을 가진다.
 
-![image](https://github.com/vinitus/leetcode-js-30days-editorial/assets/97886013/397499f7-d836-4a2d-a765-c0455ff91c30)
+![image](https://github.com/vinitus/TIL/assets/97886013/cc7a3126-ab7a-4574-8b1b-bb4b0c543751)
 
 이 모든것에 있어서 anonymous가 있지만, 편의상 적진 않았다.
 
