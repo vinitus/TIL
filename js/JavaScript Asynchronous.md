@@ -30,18 +30,18 @@ JS는 싱글 스레드 언어이기 때문에 그 자체로는 비동기 처리�
 
 즉, Task 큐는 스택의 상태에 의존적인 관계를 지니고 있다고 볼 수 있다.
 
-```
-function funcA(){
-  console.log("funcA 1");
+```js
+function funcA() {
+  console.log('funcA 1');
   setTimeout(() => {
-    console.log("setTimeout");
+    console.log('setTimeout');
   }, 1000);
-  console.log("funcA 2");
-};
+  console.log('funcA 2');
+}
 
-console.log("global 1");
+console.log('global 1');
 funcA();
-console.log("global 2");
+console.log('global 2');
 
 // result
 // global 1
