@@ -507,6 +507,29 @@ mdn의 import meta에 대한 문서이다. **컨텍스트별 메타데이터를 
 4.  **qualifiedCallbacks**는 사실 **빈 맵**이며 이는 **hot이라는 플러그인에서 set할 수 있으며**
 5.  **이 hot은 HMR API를 import.meta.hot을 통해서 다른 js 모듈에서 전역적으로 이 플러그인에 접근할 수 있게 되었다.**
 
+---
+
+### **총 정리**
+
+1.  yarn dev -> vite가 실행되며 vite의 package.json에서 bin이 실행되어 bin/vite.js가 실행된다.
+2.  vite.js에서 start()라는 메서드가 실행되며, node/cli.js가 실행된다.
+3.  cli.js에서 // dev라는 주석 줄의 코드가 실행된다. 이 코드에서 터미널을 깔끔하게 해주며, createServer를 통해 서버를 연다.
+4.  createServer는 웹 소켓을 여는 부분과 연결하는 부분이 있다.
+5.  터미널에서 서버가 열리며 브라우저는 클라이언트가 된다. 즉, vite는 터미널과 브라우저가 소켓통신을 하게 한다.
+6.  클라이언트인 브라우저에서 이를 확인할 수 있으며 처음 연결시 {type:"connected'}라는 메시지가 있으며, 이는 server/ws.ts에 있다.
+7.  클라이언트는 이를 분기처리할 수 있는 부분이 client/client.ts에 존재하며, 이 타입은 update 등등 더 존재한다.
+8.  update 타입은 다시 js-update와 css-update로 나뉘며 이는 hmr.ts에서 만들어진다.
+9.  hmr.ts는 updates라는 배열을 만들고 클라이언트에 "type": "update"와 함께 보낸다.
+10. 서버는 코드의 변화를 watcher.on("change")를 통해 감지하며 여기서 onHMRUpdate가 실행된다.
+11. onHMRUpdate는 updateModules로 이어지며, 이는 브라우저에서 받는 메시지의 9번의 updates 배열을 만드는 함수이다.
+12. client/client.ts에서 handleMessage는 type을 확인하고 분기처리하며, update는 fetchUpdate를 실행한다.
+13. fetchUpdate는 path와 acceptedPath를 기반으로 실행되는데, 여기서 path의 모듈을 await를 통해 천천히 import해온다.
+14. return으로 qualifiedCallbacks를 순회하는 함수를 호출하는데, 이는 hotModulesMap라는 빈 맵인데, 이는 hot이라는 플러그인의 accept에서만 추가할 수 있다.
+15. 이 hot은 import.meta.hot을 통해 JS 모듈 전체에서 호출 할 수 있으며 이는 HMR API를 사용할 수 있다.
+16. 결국 vite는 리액트의 변경된 부분들을 모듈로써 접근하여 필요한 부분만 수정된 것을 업데이트할 수 있다.
+
+vite가 어떻게 처리하는지 너무 궁금해서, 그리고 오픈소스를 읽는 역량을 위해서 해봤는데 아직 부족하다.
+
 #### **reference**
 
 [https://github.com/vitejs/vite/tree/1ee0014caa7ecf91ac147dca3801820020a4b8a0](https://github.com/vitejs/vite/tree/1ee0014caa7ecf91ac147dca3801820020a4b8a0)
