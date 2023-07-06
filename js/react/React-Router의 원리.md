@@ -240,3 +240,134 @@ initiallize 메서드도 결국에는 어떤 값들을 가공하여 **router를 
 **createBrowserRouter 호출 결과 정리**
 
 **createBrowserRouter**는 **window.history**를 **상속**하여 추가적인 메서드와 속성을 담은 **라우터만의 history를 만든 객체를 가지고 router라는 객체를 만든다.**
+
+---
+
+#### **RouterProvide 컴포넌트**
+
+이제 이렇게 만들어진 router 객체를 사용하기 위한 **RouterProvider**는 뭘까?
+
+그 전에, 우리는 **RouterProvider를 컴포넌트로 사용한다**. -> 이것도 컴포넌트이다.
+
+**[RouterProvider](https://github.com/remix-run/react-router/blob/656ebc3c987de5d56d6ac62beb07e18ef6e68381/packages/react-router/lib/components.tsx#L56)**는 리액트 라우터에서 만든 컴포넌트이며, router를 인자로 받고 있다. 컴포넌트이니까 jsx부터 보기로 했다.
+
+```ts
+// packages/react-router/lib/components.tsx
+...
+export function RouterProvider({
+  fallbackElement,
+  router,
+}: RouterProviderProps): React.ReactElement {
+  let [state, setState] = React.useState(router.state);
+  React.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
+
+  let navigator = React.useMemo((): Navigator => {
+    return {
+      createHref: router.createHref,
+      encodeLocation: router.encodeLocation,
+      go: (n) => router.navigate(n),
+      push: (to, state, opts) =>
+        router.navigate(to, {
+          state,
+          preventScrollReset: opts?.preventScrollReset,
+        }),
+      replace: (to, state, opts) =>
+        router.navigate(to, {
+          replace: true,
+          state,
+          preventScrollReset: opts?.preventScrollReset,
+        }),
+    };
+  }, [router]);
+
+  let basename = router.basename || "/";
+
+  let dataRouterContext = React.useMemo(
+    () => ({
+      router,
+      navigator,
+      static: false,
+      basename,
+    }),
+    [router, navigator, basename]
+  );
+
+  return (
+    <>
+      <DataRouterContext.Provider value={dataRouterContext}>
+        <DataRouterStateContext.Provider value={state}>
+          <Router
+            basename={router.basename}
+            location={router.state.location}
+            navigationType={router.state.historyAction}
+            navigator={navigator}
+          >
+            {router.state.initialized ? (
+              <DataRoutes routes={router.routes} state={state} />
+            ) : (
+              fallbackElement
+            )}
+          </Router>
+        </DataRouterStateContext.Provider>
+      </DataRouterContext.Provider>
+      {null}
+    </>
+  );
+}
+...
+```
+
+DataRouterContext.Provider를 통해 **context API를 사용**한다는 것을 알 수 있다.
+
+[**DataRouterContext**](https://github.com/remix-run/react-router/blob/656ebc3c987de5d56d6ac62beb07e18ef6e68381/packages/react-router/lib/context.ts#L74)를 먼저 봐야한다.
+
+```ts
+// packages/react-router/lib/context.ts
+...
+export const DataRouterContext =
+  React.createContext<DataRouterContextObject | null>(null);
+...
+```
+
+DataRouterContextObject 타입의 **React context**를 생성한다. 기본값은 null 이다.
+
+라우터는 결국 **history**를 라우터 정의의 history를 **router**로 추상화한 것을 **context API를 통해 전역 상태로써 관리**하는 구나.. 를 짐작할 수 있다.
+
+```ts
+...
+interface NavigationContextObject {
+  basename: string;
+  navigator: Navigator;
+  static: boolean;
+}
+
+export interface DataRouterContextObject extends NavigationContextObject {
+  router: Router;
+  staticContext?: StaticHandlerContext;
+}
+...
+```
+
+router에는 우리가 위에서 보던 Router이다. dataRouterContext는 value에 들어가서 DataRouterContextObject의 타입에 맞게 구조분해할당이 된다.
+
+DataRouterStateContext도 마찬가지이다.
+
+```ts
+export const DataRouterStateContext = React.createContext<Router['state'] | null>(null);
+```
+
+---
+
+**정리**
+
+RouterProvide는 결국 createBrowserRouter에서 가공한 리액트 라우터만의 **router 객체를 context API를 통해 전역으로 관리**하는 것이다.
+
+---
+
+재밌는 듯??
+
+#### **reference**
+
+[https://github.com/remix-run/react-router/tree/656ebc3c987de5d56d6ac62beb07e18ef6e68381](https://github.com/remix-run/react-router/tree/656ebc3c987de5d56d6ac62beb07e18ef6e68381)
+
+[https://developer.mozilla.org/ko/docs/Web/API/History](https://developer.mozilla.org/ko/docs/Web/API/History)
