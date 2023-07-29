@@ -12,7 +12,7 @@
 
 ## Apache와 Nginx
 
-Apache가 어떤 문제점을 겪고 왜 Nginx가 나왔는지를 봐야한다.
+`Apache`가 어떤 문제점을 겪고 왜 Nginx가 나왔는지를 봐야한다.
 
 ### Apache의 특징
 
@@ -44,21 +44,27 @@ Apache가 어떤 문제점을 겪고 왜 Nginx가 나왔는지를 봐야한다.
 
 ![image](https://github.com/vinitus/TIL/assets/97886013/6ca2a1cc-3db6-460c-970d-b654e3820075)
 
-하지만, 이 Nginx는 웹 서버 기능을 강화하고 모듈 시스템 등을 도입하며, 점차 발전하여 독자적인 WAS 서버가 되었다.
+하지만, 이 `Nginx`는 웹 서버 기능을 강화하고 모듈 시스템 등을 도입하며, 점차 발전하여 독자적인 WAS 서버가 되었다.
 
 ## Nginx의 구조와 작동 방식
 
 ### Nginx의 구조
 
-- Master process: 설정 파일을 읽고 Worker process를 생성하고 관리하는 역할
+- Master process: 설정 파일을 읽고 `Worker process`를 생성하고 관리하는 역할
 
-- Worker process: Master process가 설정 파일을 읽고 생성한 프로세스
+- Worker process: `Master process`가 설정 파일을 읽고 생성한 프로세스
   이 프로세스는 1개 이상이며 각각의 프로세스는 독립적으로 동작
 
-- Listen socket: Master process가 설정 파일을 통해 지정한 포트를 listen하는 소켓으로써, 해당 포트로 요청이 들어오면 Master process에 전달한다.
+- Listen socket: `Master process`가 설정 파일을 통해 지정한 포트를 listen하는 소켓으로써, 해당 포트로 요청이 들어오면 `Master process`에 전달한다.
 
 ### 작동방식
 
-1. Listen socket에 요청이 들어오면, Matser process로 요청을 전달한다.
-2. 요청을 전달받은 Master process는 소켓에 맞는 Worker process로 요청을 전달한다.
-3. 각 Worker process는 각자 로직에 따라 요청을 처리한다.
+1. `Listen socket`에 요청이 들어오면, `Matser process`로 요청을 전달한다.
+2. 요청을 전달받은 `Master process`는 소켓에 맞는 `Worker process`로 요청을 전달한다.
+3. 각 `Worker process`는 각자 로직에 따라 요청을 처리한다.
+
+---
+
+### reference
+
+[[10분 테코톡] 피케이의 Nginx](https://www.youtube.com/watch?v=6FAwAXXj5N0)
