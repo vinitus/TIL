@@ -1,4 +1,4 @@
-forward-proxy와 reverse-proxt에 대한 글
+forward-proxy와 reverse-proxy에 대한 글
 
 # proxy
 
