@@ -95,7 +95,35 @@ NextJS 팀에서 이렇게 말했다. 거기에 추가로,
 
 세그먼트 및 해당 하위에 대한 UI 로드
 
-로딩이라는 이름에 걸맞게 로딩 중에
+로딩이라는 이름에 걸맞게 로딩 중에 렌더링할 컴포넌트에 해당한다. React Suspense 기능을 사용하며, page 컴포넌트가 load되는 동안 나타나는 컴포넌트
+
+![image](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Floading-overview.png&w=1920&q=75&dpl=dpl_46ncsoiUzpeReYYC8yec1ZDMzFik)
+
+출처 : [NextJS 공식문서](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#instant-loading-states)
+
+이렇게 Suspense 컴포넌트로 page 컴포넌트를 감싸며, fallback props에 loading 컴포넌트를 넘겨 사용한다.
+
+**? 스트리밍**
+
+공부하다보면 계속 스트리밍이라는 단어를 사용한다.
+
+> 1. 먼저 지정된 페이지의 모든 데이터를 서버에서 가져옵니다.
+> 2. 그런 다음 서버는 페이지의 HTML을 렌더링합니다.
+> 3. 페이지의 HTML, CSS 및 JavaScript가 클라이언트로 전송됩니다.
+> 4. 생성된 HTML과 CSS를 사용해 비대화형 사용자 인터페이스가 표시됩니다.
+> 5. 마지막으로 React는 사용자 인터페이스에 Hydrates하여 대화형 인터페이스로 만듭니다.
+
+출처 : [NextJS 공식문서](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#what-is-streaming)
+
+**? Hydrate**
+
+> React will attach to the HTML that exists inside the domNode, and take over managing the DOM inside it. An app fully built with React will usually only have one hydrateRoot call with its root component.
+> 출처: [react.dev의 hydrate](https://react.dev/reference/react-dom/client/hydrateRoot)
+
+React는 domNode가 존재하는 HTML 내부에 첨부되고, React가 HTML 내부의 DOM을 관리한다.
+React로 완전히 build된 app은 일반적으로 Root Component, hydrateRoot 호출이 하나만 있다.
+
+Hydrate는 결국, SSR 기능을 사용하는 React Project에서 서버에서 클라이언트에 정적 파일들이 전송되었을 때, 이미 렌더링된 HTML 문서에 React 컴포넌트들이 자리잡을 수 있도록 하는 메서드이다.
 
 ### 9. default
 
