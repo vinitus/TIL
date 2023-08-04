@@ -15,6 +15,35 @@ React에서 쉽게 사용하지 못하거나 못하는 기능들을 쉽게 사�
 
 계속 말하게되는 Router, SSR, SSG 등등이 있다.
 
+## 그래서 왜 써야할까?
+
+React 홈페이지에서 React를 설명할 때,
+
+> A JavaScript library for building user interfaces
+
+라고 한다. 즉, UI를 위한 라이브러리이다. 때문에, 우리는 리액트를 사용하여 웹 프로젝트를 개발할 때 여러 라이브러리를 조합해야한다. React 자체도 이미 라이브러리인데, 이것만으로하는 해결할 수 없는, 혹은 귀찮은 문제들을 해결하기 위해 라이브러리들을 또 도입한다.
+
+그렇게 라이브러리를 도입하고 조합하다보면 문제들이 생긴다. 예를 들어, react-router-dom의 loader에서는 훅을 사용할 수 없어서, redux나 recoil의 상태들을 가져올 수 없었다. 이를 해결하기 위해, react-query를 도입하고, queryClient 자체를 loader에 고차함수로 넘겨서 이를 해결한 적이 있다.
+
+라이브러리 간의 문제를 해결하려면, 다른 라이브러리를 대체하거나 직접 해당 라이브러리와 유사하게 만들거나 해야한다..
+또한, 서드 파티 라이브러리들을 계속 사용하다보면, React의 발전에 발맞추지 못하는 경우도 생겼다.
+
+그런 React의 문제를 해결하기 위해, 나머지 부분들을 다 채워주는 framework를 만들었다. 그것이 바로 NextJS이다.
+
+NextJS 팀에 따르면, 하나의 웹 어플리케이션을 만들기 위해서는 다음것들이 필요하다고 말한다.
+
+- User Interface
+- Routing
+- Data Fetching
+- Rendering
+- Integrationsh
+- Infrastructure
+- Performance
+- Scalability
+- Developer Experience
+
+React는 UI에 집중한 라이브러리지만, NextJS는 프레임워크이기에 여러 기능들을 NextJS에 담았다. 그 많은 기능 중 하나가 Rendering일 뿐이다.
+
 ## 중요한 기능
 
 1. SSR
