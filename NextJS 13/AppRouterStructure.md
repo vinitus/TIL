@@ -115,6 +115,9 @@ NextJS 팀에서 이렇게 말했다. 거기에 추가로,
 
 출처 : [NextJS 공식문서](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#what-is-streaming)
 
+이건 사실, 리액트가 어떻게 클라이언트에서 렌더링이 되는가에 대한 말이다.
+스트리밍은 전체 HTML 페이지가 렌더링될 때까지 기다렸다가 클라이언트로 전송되는 것이 아니라, 페이지의 일부가 사용가능해지면 전송하여 일부를 점진적으로 렌더링하는 기능이다.
+
 **? Hydrate**
 
 > React will attach to the HTML that exists inside the domNode, and take over managing the DOM inside it. An app fully built with React will usually only have one hydrateRoot call with its root component.
