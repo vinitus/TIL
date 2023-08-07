@@ -126,9 +126,97 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
 
 전역 오류 UI
 
+Layout, template 컴포넌트에 대한 오류 처리를 하려면, 상위 세그먼트의 error.js에서 해야한다. 그렇다면 루트는 상위가 없는데 어떻게 해야할까? 바로 global-error 컴포넌트에서 해야한다.
+
 ### 7. route
 
 서버 측 API 끝점
+
+**중요한 컨벤션 중 하나는 page 컴포넌트와 함께 위치해서는 안된다.**
+
+```tsx
+export async function GET(request: Request) {}
+```
+
+실사용 예시
+
+`GET` route handler는 기본적으로 캐시기능이 있다.
+
+```tsx
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  const res = await fetch('https://data.mongodb-api.com/...', {
+    headers: {
+      'Content-Type': 'application/json',
+      'API-Key': process.env.DATA_API_KEY,
+    },
+  });
+  const data = await res.json();
+
+  return NextResponse.json({ data });
+}
+```
+
+이 캐시 기능을 제외하려면, request 메서드를 활용해야하 한다.
+
+```tsx
+import { NextResponse } from 'next/server';
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  const res = await fetch(`https://data.mongodb-api.com/product/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'API-Key': process.env.DATA_API_KEY,
+    },
+  });
+  const product = await res.json();
+
+  return NextResponse.json({ product });
+}
+```
+
+캐시된 데이터의 유효성 검사
+
+```tsx
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  const res = await fetch('https://data.mongodb-api.com/...', {
+    next: { revalidate: 60 }, // Revalidate every 60 seconds
+  });
+  const data = await res.json();
+
+  return NextResponse.json(data);
+}
+```
+
+리다이렉션
+
+```tsx
+import { redirect } from 'next/navigation';
+
+export async function GET(request: Request) {
+  redirect('https://nextjs.org/');
+}
+```
+
+CORS 헤더 설정
+
+```tsx
+export async function GET(request: Request) {
+  return new Response('Hello, Next.js!', {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
+}
+```
 
 ### 8. loading
 
@@ -170,3 +258,7 @@ Hydrate는 결국, SSR 기능을 사용하는 React Project에서 서버에서 �
 ### 9. default
 
 병렬 경로 에 대한 폴백 UI
+
+```
+
+```
