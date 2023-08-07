@@ -83,6 +83,45 @@ NextJS 팀에서 이렇게 말했다. 거기에 추가로,
 
 세그먼트 및 해당 하위에 대한 오류 UI
 
+런타임 오류를 해결하는 컴포넌트이다.
+
+```tsx
+// error.tsx
+'use client'; // Error components must be Client Components
+
+import { useEffect } from 'react';
+
+export default function Error({ error, reset }: { error: Error; reset: () => void }) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button onClick={() => reset()}>Try again</button>
+    </div>
+  );
+}
+```
+
+이 컴포넌트는 리액트에서 다음과 같은 형식이 된다.
+
+![image](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Ferror-overview.png&w=1920&q=75&dpl=dpl_46ncsoiUzpeReYYC8yec1ZDMzFik)
+
+즉, React의 ErrorBoundary 컴포넌트를 사용하는 것
+
+**reset() 메서드**
+
+이는, 에러로부터 컴포넌트를 다시 복구하는 것이다.
+
+<br/>
+
+그리고 중요한 것은, 위의 그림에서 보면 알겠지만, page 컴포넌트에 대한 에러만 처리한다. layout이나 template에 대한 에러처리를 안한다는 것
+해당 layout같은 UI 컴포넌트에 대한 에러를 처리하려면, 상위 세그먼트에서 error를 처리해야 한다.
+
+루트 layout이나 template에 대한 오류를 처리하려면, `global-error.js`를 사용해야한다.
+
 ### 6. global-error
 
 전역 오류 UI
@@ -101,7 +140,7 @@ NextJS 팀에서 이렇게 말했다. 거기에 추가로,
 
 출처 : [NextJS 공식문서](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#instant-loading-states)
 
-이렇게 Suspense 컴포넌트로 page 컴포넌트를 감싸며, fallback props에 loading 컴포넌트를 넘겨 사용한다.
+리액트로 설명하면, 이렇게 Suspense 컴포넌트로 page 컴포넌트를 감싸며, fallback props에 loading 컴포넌트를 넘겨 사용되게 된다.
 
 **? 스트리밍**
 
