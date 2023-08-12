@@ -40,11 +40,130 @@ export default Blog;
 
 페이스북팀도 동일한 문제와 고민 속에 다른 솔루션으로 해결하고 있으나, 결국 근본적인 해결방법은 아니다. 그래서, 리액트만으로 해당 문제를 해결할 수 있는 Server Component를 개발하였다.
 
+## Server Component
+
+서버 컴포넌트는 서버에서만 작동하는 컴포넌트로써, 다음과 같은 특징을 지닌다.
+
+1. 이벤트 리스너 같은 상호작용을 지원하지 않는다.
+2. 함수들을 props로 전달할 수 없다. -> 함수는 serializtion을 할 수 없기 때문
+3. Life Cycle Hook을 사용할 수 없다.
+
+가장 중요한 것은, 클라이언트 사이드 번들에 서버 컴포넌트가 포함되지 않는다.
+서버에서 작동하여 컴포넌트릉 생성하고 클라이언트로 전송하기 때문이다.
+위의 특징들을 모두 포함하는 컴포넌트라면, 굳이 클라이언트 컴포넌트로 만들지 않는 것이 중요하다고 생각한다.
+
+### Server Component와 Client Component를 같이 사용하기
+
+클라이언트 컴포넌트는 서버 컴포넌트를 import할 수 없다. 생각해본다면, 클라이언트 컴포넌트는 클라이언트 상에서만 존재하는 것이고, 이 컴포넌트가 들어있는 번들링된 파일에는 서버 컴포넌트가 없기 때문이다.
+
+그래서 A라는 서버 컴포넌트를 B라는 클라이언트 컴포넌트의 자식 컴포넌트로 하고 싶다면, 또 다른 서버 컴포넌트 C를 사용해야한다.
+
+```jsx
+import ServerAComponent from './ServerAComponent';
+import ClientBComponent from './ClientBComponent';
+
+export default function ServerCComponent() {
+  return (
+    <ClientBComponent>
+      <ServerAComponent />
+    </ClientBComponent>
+  );
+}
+```
+
+### Server Component와 SSR을 분리하기
+
+공부하면서, 자꾸 헷갈렸다. 둘이 유사한 점이 많은 듯 하지만, 다시 생각하보면 많이 다르다.
+
+**SSR**이 뭔지 다시 생각해보면 ..
+
+1. 클라이언트가 서버에 웹 문서를 요청
+2. 서버는 미리 HTML 문서를 만들고, 전송한다.
+3. 그 다음, HTML에서 필요하다고 말하는 JS파일을 보낸다.
+
+반면에, Server Component는 직렬화한 JSX 데이터를 보낸다. 이를 클라이언트가 받고 파싱한다.
+
+왜 HTML로 보내지 않을까? 는, 결국 서버 컴포넌트도 컴포넌트이다. 클라이언트에서는 이를 인지하고, 클라이언트 컴포넌트와 같이 사용하기 때문에, HTML로 보낸다면 HTML을 JSX 엘리먼트로 다시 파싱해야하기 때문에 효율적이라고 생각했을 것이다.
+
+![image](https://github.com/vinitus/my-blog/assets/97886013/9d639a36-dee6-4bf1-903a-582ec6a6e579)
+
+이 사진에 대한 예시는, [저의 미니 프로젝트](https://github.com/vinitus/my-blog/tree/server-component-code)에서 확인하실 수 있습니다.
+
+```jsx
+import Image from 'next/image';
+import blogLogo from '@/public/blog-logo.png';
+import navbarCss from '@/app/navbar.module.css';
+import { Suspense } from 'react';
+import Link from 'next/link';
+
+async function Data() {
+  const res = await fetch('https://dcb7a8e3-965b-4d6a-8a40-ff96b332a2fc.mock.pstmn.io/hi');
+
+  const jsonData = await res.json();
+
+  const { a } = jsonData;
+
+  return <div>{a}</div>;
+}
+
+export default function Home() {
+  return (
+    <>
+      <Suspense fallback={<div>loading...</div>}>
+        <Data />
+      </Suspense>
+      <header className={navbarCss.navbarHeader}>
+        <nav className={navbarCss.navbarLayout}>
+          <div className={navbarCss.navbarCategoryArea}>
+            <Link href='/'>
+              <Image src={blogLogo} alt='블로그 로고' />
+            </Link>
+            <p>Home</p>
+            <p>Post</p>
+            <p>TEMPT</p>
+            <p>TEMPT</p>
+            <p>TEMPT</p>
+          </div>
+          {/* search */}
+          <div className={navbarCss.navbarSearchArea}>
+            <button className={navbarCss.navbarSearchBox}>
+              검색
+              <p className={navbarCss.navbarSearchBoxButton}>검색</p>
+            </button>
+            <a href='' className={navbarCss.navbarContactButton}>
+              <p className={navbarCss.navbarContactButtonFont}>Contact</p>
+            </a>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <div className='max-w-screen-xl mx-auto p-10 flex flex-row w-full'>
+          {/* sidebar */}
+          <div className='sticky h-[100vh] flex-shrink-0 flex-col justify-between w-72'>
+            <ul>1</ul>
+            <ul>2</ul>
+            <ul>3</ul>
+            <ul>4</ul>
+            <ul>5</ul>
+          </div>
+          <article className='w-full'>2</article>
+          <p>HIHIHIHIHI</p>
+        </div>
+      </main>
+    </>
+  );
+}
+```
+
+이 코드가 저런 json과 유사한 형태로 변환되어 전송된다.
+
 ## 8월 12일 헤매던 내용 정리..
 
-1. 서버컴포넌트란 정확하게 무엇일까
+~~1. 서버컴포넌트란 정확하게 무엇일까~~
 
-서버에서만 작동하는 컴포넌트이다. 근데 훅을 못쓴다. 이럴꺼면 리액트를 왜사용하지?
+~~서버에서만 작동하는 컴포넌트이다. 근데 훅을 못쓴다. 이럴꺼면 리액트를 왜사용하지?~~
+
+~~서버 컴포넌트를 사용하는 가장 큰 이점은 번들링된 파일 중에서 서버 컴포넌트에서 작동하는 컴포넌트에 대한 dependency graph가 그려지지 않아서, 포함되지 않는다.~~
 
 2. use 훅이란 무엇일까
 
