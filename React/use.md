@@ -8,7 +8,7 @@
 
 Suspense 기능을 사용하여 자바스크립트의 Promise의 결과를 읽기 위한 일급 지원을 추가한다.
 
-라이브러리에서 말하는 일급 지원은, 해당 라이브러리의 핵심 기능이다. 즉, Suspense에 Promise에 관련된 일급 지원을 추가한다는 것이다.
+라이브러리에서 말하는 일급 지원은, 해당 라이브러리의 핵심 기능이다. JavaScript의 Promise에 관련된 일급 지원을 추가한다는 것이다.
 
 이 글은 두가지 기능에 대한 소개를 하고 있다.
 
@@ -21,6 +21,8 @@ Suspense 기능을 사용하여 자바스크립트의 Promise의 결과를 읽�
 `use` 훅을 소개한다고 한다. 이건 await와 유사하지만, 일반 컴포넌트와 Hook에서 사용가능하다고 한다.
 <br />
 하지만, 캐싱을 사용하진 않는다고 한다. 추후에 `Cache API`로써 추가할 예정이지만, 지금 당장은 React의 server component에는 해당하지 않는다.
+
+**깃허브 따라서 뭔가 거창하고 복잡하게 말했지만, client component에서 use훅을 사용하면 async / await를 사용할 수 있다는 것이다.**
 
 ## basic example
 
@@ -42,6 +44,8 @@ async function Note({ id, isEditing }) {
 > This is the recommended way to access asynchronous data on the server.
 
 리액트 팀은 이것이 서버의 비동기 데이터에 접근하는 권장하는 방법이라고 말하고 있다. 하지만 이에 한계가 있다고 한다. **Hook에 접근할 수 없다는 것**
+
+이는 서버 컴포넌트의 특징이고, 이는 사실 서버 컴포넌트이다.
 
 그래서 이를 `use`라는 훅을 통해서 해결하고자 하였다.
 
@@ -86,9 +90,57 @@ function Note({ id, shouldIncludeAuthor }) {
 
 리액트 하나만으로 만든 웹 어플리케이션은 존재하지 않고, 리액트는 서드파티 라이브러리들과 프레임워크의 발전 속에서 많은 혜택을 받아왔다. 여기서 리액트가 데이터 불러오기 방식에 너무 많은 가정(제약)을 한다면, 개발자(userspace)들이 최상의 솔루션을 개발하기 어려울 수 있다. 반면에 React가 너무 적은 가정(제약)을 한다면, 모든 개발자를 위한 전반적인 성능을 개선하기 힘들어질 것이다.
 
-## Detailed design
+## 그래서 use가 뭘까??
+
+이건 직접 사용해보면 알 수 있다.
+
+client 컴포넌트에서 async / await처럼 동작하게 해주는 것이다.
+
+```jsx
+'use client';
+
+import { Dispatch, SetStateAction, use, useRef, useState } from 'react';
+
+async function Data2() {
+  const res = await fetch('https://dcb7a8e3-965b-4d6a-8a40-ff96b332a2fc.mock.pstmn.io/hello');
+
+  const jsonData = await res.json();
+
+  const { a } = jsonData;
+
+  return a;
+}
+
+export default function Button() {
+  const aTag = useRef(<div>1</div>);
+
+  console.log(1);
+  if (aTag.current.props.children === '1') {
+    aTag.current = <div>{use(Data2())}</div>;
+    console.log(2);
+  }
+  console.log(3);
+  const [count, setCount] = useState(0);
+
+  function counter(prev: number, dispatcher: Dispatch<SetStateAction<number>>) {
+    return () => dispatcher(prev + 1);
+  }
+
+  return (
+    <button onClick={counter(count, setCount)}>
+      {aTag.current}
+      <p>{count}</p>
+    </button>
+  );
+}
+```
+
+이걸 실행하면, 저 use훅을 기다리고 실행을 멈춘다.
+
+![image](https://github.com/vinitus/TIL/assets/97886013/c38bf76e-af3e-4753-b59f-4663a7ebe294)
+
+이렇게 1이 실행되고, 3이 실행되는게 아니라, 멈췄다가 다시 1부터 실행된다.
 
 ### reference
 
 [https://github.com/acdlite/rfcs/blob/first-class-promises/text/0000-first-class-support-for-promises.md](https://github.com/acdlite/rfcs/blob/first-class-promises/text/0000-first-class-support-for-promises.md)
-[위키피디아 일급 객체](https://ko.wikipedia.org/wiki/%EC%9D%BC%EA%B8%89_%EA%B0%9D%EC%B2%B4)
