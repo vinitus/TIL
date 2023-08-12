@@ -42,21 +42,21 @@ export default Blog;
 
 ## Server Component
 
-서버 컴포넌트는 서버에서만 작동하는 컴포넌트로써, 다음과 같은 특징을 지닌다.
+Server Component는 서버에서만 작동하는 컴포넌트로써, 다음과 같은 특징을 지닌다.
 
 1. 이벤트 리스너 같은 상호작용을 지원하지 않는다.
 2. 함수들을 props로 전달할 수 없다. -> 함수는 serializtion을 할 수 없기 때문
 3. Life Cycle Hook을 사용할 수 없다.
 
-가장 중요한 것은, 클라이언트 사이드 번들에 서버 컴포넌트가 포함되지 않는다.
+가장 중요한 것은, **클라이언트 사이드 번들에 Server Component가 포함되지 않는다.**
 서버에서 작동하여 컴포넌트릉 생성하고 클라이언트로 전송하기 때문이다.
-위의 특징들을 모두 포함하는 컴포넌트라면, 굳이 클라이언트 컴포넌트로 만들지 않는 것이 중요하다고 생각한다.
+위의 특징들을 모두 포함하는 컴포넌트라면, 굳이 Client Component로 만들지 않는 것이 중요하다고 생각한다.
 
 ### Server Component와 Client Component를 같이 사용하기
 
-클라이언트 컴포넌트는 서버 컴포넌트를 import할 수 없다. 생각해본다면, 클라이언트 컴포넌트는 클라이언트 상에서만 존재하는 것이고, 이 컴포넌트가 들어있는 번들링된 파일에는 서버 컴포넌트가 없기 때문이다.
+**Client Component는 Server Component를 import할 수 없다.** 생각해본다면, Client Component는 클라이언트 상에서만 존재하는 것이고, 이 컴포넌트가 들어있는 번들링된 파일에는 Server Component가 없기 때문이다.
 
-그래서 A라는 서버 컴포넌트를 B라는 클라이언트 컴포넌트의 자식 컴포넌트로 하고 싶다면, 또 다른 서버 컴포넌트 C를 사용해야한다.
+그래서 A라는 Server Component를 B라는 Client Component의 자식 컴포넌트로 하고 싶다면, 또 다른 Server Component C를 사용해야한다.
 
 ```jsx
 import ServerAComponent from './ServerAComponent';
@@ -83,7 +83,7 @@ export default function ServerCComponent() {
 
 반면에, Server Component는 직렬화한 JSX 데이터를 보낸다. 이를 클라이언트가 받고 파싱한다.
 
-왜 HTML로 보내지 않을까? 는, 결국 서버 컴포넌트도 컴포넌트이다. 클라이언트에서는 이를 인지하고, 클라이언트 컴포넌트와 같이 사용하기 때문에, HTML로 보낸다면 HTML을 JSX 엘리먼트로 다시 파싱해야하기 때문에 효율적이라고 생각했을 것이다.
+왜 HTML로 보내지 않을까? 는, 결국 Server Component도 컴포넌트이다. 클라이언트에서는 이를 인지하고, Client Component와 같이 사용하기 때문에, HTML로 보낸다면 HTML을 JSX 엘리먼트로 다시 파싱해야하기 때문에 효율적이라고 생각했을 것이다.
 
 ![image](https://github.com/vinitus/my-blog/assets/97886013/9d639a36-dee6-4bf1-903a-582ec6a6e579)
 
@@ -163,7 +163,7 @@ export default function Home() {
 
 ~~서버에서만 작동하는 컴포넌트이다. 근데 훅을 못쓴다. 이럴꺼면 리액트를 왜사용하지?~~
 
-~~서버 컴포넌트를 사용하는 가장 큰 이점은 번들링된 파일 중에서 서버 컴포넌트에서 작동하는 컴포넌트에 대한 dependency graph가 그려지지 않아서, 포함되지 않는다.~~
+~~Server Component를 사용하는 가장 큰 이점은 번들링된 파일 중에서 Server Component에서 작동하는 컴포넌트에 대한 dependency graph가 그려지지 않아서, 포함되지 않는다.~~
 
 2. use 훅이란 무엇일까
 
