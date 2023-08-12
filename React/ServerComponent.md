@@ -172,3 +172,9 @@ export default function Home() {
 3. 이벤트리스너도 사용할 수 없다.
 
 이러면 리액트를 왜사용하지?
+
+### reference
+
+[카카오 기술블로그](https://tech.kakaopay.com/post/react-server-components/#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%9D%98-data-fetching)
+[커리어리 질문](https://careerly.co.kr/qnas/2625)
+[2ast님의 velog](https://velog.io/@2ast/React-%EC%84%9C%EB%B2%84-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8React-Server-Component%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EC%B0%B0)
