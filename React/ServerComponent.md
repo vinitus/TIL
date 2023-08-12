@@ -81,6 +81,8 @@ export default function ServerCComponent() {
 2. 서버는 미리 HTML 문서를 만들고, 전송한다.
 3. 그 다음, HTML에서 필요하다고 말하는 JS파일을 보낸다.
 
+그리고, NextJS의 SSR은 진짜 SSR과는 많이 다르다. 3번의 JS파일 중에서 React도 포함되어 있고, React 파일이 전송되면 HydrateRoot 메서드가 실행된다. 이로 인해서 이미 만들어진 HTML과 React가 결합하여, CSR로 작동한다.
+
 반면에, Server Component는 직렬화한 JSX 데이터를 보낸다. 이를 클라이언트가 받고 파싱한다.
 
 왜 HTML로 보내지 않을까? 는, 결국 Server Component도 컴포넌트이다. 클라이언트에서는 이를 인지하고, Client Component와 같이 사용하기 때문에, HTML로 보낸다면 HTML을 JSX 엘리먼트로 다시 파싱해야하기 때문에 효율적이라고 생각했을 것이다.
@@ -155,26 +157,94 @@ export default function Home() {
 }
 ```
 
-이 코드가 저런 json과 유사한 형태로 변환되어 전송된다.
+이 코드가 저런 json과 유사한 형태로 변환되어 전송된다. 이 데이터를 받은 클라이언트는, 이를 파싱하고 virtual DOM을 형성하여 하나의 리액트 컴포넌트로 형성한다.
+
+정리하면, SSR은 초기 렌더링을 HTML로 대신하고, 그 뒤의 상호작용은 React의 CSR로써 작동한다.
+반면에 Server Component는 서버에서 실행되고 있는 컴포넌트이며, 해당 컴포넌트의 결과를 Serialize하여 클라이언트로 보내는 것일 뿐이다.
+
+### 상호작용을 등록할 수 없다면, 왜 사용해야하는가?
+
+결국 이런 기능들이 개발 되는 것은 개발자와 사용자 모두를 위한 성능 향상의 결과이다. 서버 컴포넌트는 서버에서 작동하기에, 물리적으로 WAS나 DB와 가깝다.
+
+서버 컴포넌트 이전으로 다시 돌아가면, 엘리먼트들의 속을 채워주는 컨텐츠를 API나 DB에서 가져와야하는 경우에 네비게이션바와 Footer가 붙어있다가, 동적 컨텐츠를 불러와서 갑자기 떨어지는 현상도 있을 수 있다.
+
+이를 해결하는 것을 생각해보면, 조건문을 통해서 다른 컴포넌트를 렌더링하다가 내용이 채워진 컴포넌트를 렌더링해야했다.
+
+그리고 리액트 팀은 이런 비슷한 것들을 리액트 자체로써 해결하고자 하였고, 그래서 나온 기능이 Suspense이다.
+
+거기에 추가로 데이터를 불러오던 것들도 리액트의 기능으로써 해결하고자하여 나온 기능이 Server Component이다.
+
+동적 컨텐츠들을 불러오는 곳을 서버 컴포넌트로 대체하고, 이벤트 리스너는 클라이언트 컴포넌트에 자리잡게 하였다.
+
+```jsx
+function oneConsoleLog() {
+  console.log(1);
+}
+
+export default function Home() {
+  const [number, setNumber] = useState(0);
+
+  useEffect(async () => {
+    const res = await fetch('api');
+    const data = res.json();
+
+    setNumber(data.id);
+  }, []);
+
+  return <div onChang={oneConsoleLog}>{number === 0 ? <Loading /> : <p>{number}</p>}</div>;
+}
+```
+
+이런 형식의 컴포넌트를
+
+```jsx
+// Number.server.js
+export default async function Number() {
+  const res = await fetch('api');
+  const data = res.json();
+  const { id } = data;
+
+  return (
+    <p>{id}</p>
+  )
+}
+
+// Home.client.js
+function oneConsoleLog() {
+  console.log(1);
+}
+
+export default function Home() {
+  return <div onChang={oneConsoleLog}>
+    <Suspense fallback={<Loading />}>
+      <Number />
+    </Suspense>
+  </div>;
+}
+```
+
+이렇게 바꿀 수 있다는 것이다. 지금은 api가 하나지만, 만약 여러개의 api가 있고 이 api들은 각각의 컴포넌트에서 호출되고 있으며, 이 컴포넌트는 하나의 부모 컴포넌트에 묶이는 경우를 생각한다면, 혁신적인 변화가 아닐 수 없다.
+
+또한, 백엔드가 어쩌면 필요없을 수도 있다. 그냥 DB나 정적 파일 중에서 데이터를 가져와서 서버 컴포넌트에서 처리하고 넘긴다면,
+
+서버 컴포넌트에서 이벤트 리스너 같은 상호작용을 적용할 수는 없어도, 이러한 이유 때문에 큰 변경점이라고 생각한다.
+
+### 그리고 알게된 것들
+
+1. 지금 있는 페이지에 Link 태그가 있다면, 해당하는 컴포넌트에 대한 js파일을 미리 불러온다.
+2. use client를 사용했다고 해서, serialize된 데이터를 안받지는 않는다. 아마도 NextJS가 실행되고 있는 서버 자체가 서버 컴포넌트가 아닐까?
+3. use client를 선언한 컴포넌트에서 import를 한 컴포넌트는 자동적으로 client component가 된다.
+4. 클라이언트 컴포넌트와 서버 컴포넌트를 브라우저 상에서 구분하는 것은 서버 컴포넌트에서 보내고 있는 요청이 브라우저 상에서 일어나지 않는다면, 서버 컴포넌트이다.
 
 ## 8월 12일 헤매던 내용 정리..
 
-~~1. 서버컴포넌트란 정확하게 무엇일까~~
-
-~~서버에서만 작동하는 컴포넌트이다. 근데 훅을 못쓴다. 이럴꺼면 리액트를 왜사용하지?~~
-
-~~Server Component를 사용하는 가장 큰 이점은 번들링된 파일 중에서 Server Component에서 작동하는 컴포넌트에 대한 dependency graph가 그려지지 않아서, 포함되지 않는다.~~
-
-2. use 훅이란 무엇일까
+1. use 훅이란 무엇일까
 
 서버컴포넌트에서만 작동하고, 다른 훅을 사용할 수 없다면 왜쓰지?
-
-3. 이벤트리스너도 사용할 수 없다.
-
-이러면 리액트를 왜사용하지?
 
 ### reference
 
 [카카오 기술블로그](https://tech.kakaopay.com/post/react-server-components/#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%9D%98-data-fetching)
 [커리어리 질문](https://careerly.co.kr/qnas/2625)
 [2ast님의 velog](https://velog.io/@2ast/React-%EC%84%9C%EB%B2%84-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8React-Server-Component%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EC%B0%B0)
+[리액트 팀이 작성한 JS Promise에 대한 Suspense 일급 지원 추가글](https://github.com/acdlite/rfcs/blob/first-class-promises/text/0000-first-class-support-for-promises.md#avoiding-an-uncanny-valley-between-server-and-client)
