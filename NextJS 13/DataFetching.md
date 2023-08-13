@@ -100,3 +100,118 @@ export default async function Page() {
 // page.js
 export const dynamic = 'force-dynamic';
 ```
+
+## Data Fetching Patterns
+
+### 순차적 데이터 fetching
+
+```tsx
+// ...
+
+async function Playlists({ artistID }: { artistID: string }) {
+  // Wait for the playlists
+  const playlists = await getArtistPlaylists(artistID);
+
+  return (
+    <ul>
+      {playlists.map((playlist) => (
+        <li key={playlist.id}>{playlist.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default async function Page({ params: { username } }: { params: { username: string } }) {
+  // Wait for the artist
+  const artist = await getArtist(username);
+
+  return (
+    <>
+      <h1>{artist.name}</h1>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Playlists artistID={artist.id} />
+      </Suspense>
+    </>
+  );
+}
+```
+
+이 경우, getArtist가 완료된 후에, Playlists 컴포넌트를 생성하기 위한 getArtistPlaylists가 실행된다.
+
+하지만, Suspense를 통해 이미 렌더링된 요소들과 상호작용할 수 있게 할 수 있다.
+
+### 병렬 데이터 fetching
+
+`Promise.all`를 사용하는 것
+
+```tsx
+import Albums from './albums';
+
+async function getArtist(username: string) {
+  const res = await fetch(`https://api.example.com/artist/${username}`);
+  return res.json();
+}
+
+async function getArtistAlbums(username: string) {
+  const res = await fetch(`https://api.example.com/artist/${username}/albums`);
+  return res.json();
+}
+
+export default async function Page({ params: { username } }: { params: { username: string } }) {
+  // Initiate both requests in parallel
+  const artistData = getArtist(username);
+  const albumsData = getArtistAlbums(username);
+
+  // Wait for the promises to resolve
+  const [artist, albums] = await Promise.all([artistData, albumsData]);
+
+  return (
+    <>
+      <h1>{artist.name}</h1>
+      <Albums list={albums}></Albums>
+    </>
+  );
+}
+```
+
+마찬가지로 Suspense를 사용하여 둘 중 하나가 먼저 나와도 상관없게 할 수 있다.
+
+### preloading data
+
+waterfall를 방지하기 위한 방법으로써, 선택적으로 preload 함수를 통해 병렬 데이터 fetching을 더욱 최적화할 수 있다.
+이 방식의 장점은, Promise를 전달할 필요가 없다는 것이다.
+
+```tsx
+// components/item.tsx
+import { getItem } from '@/utils/get-item';
+
+export function preload(id: string) {
+  // void evaluates the given expression and returns undefined
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void
+  void getItem(id);
+}
+export default async function Item({ id }: { id: string }) {
+  const result = await getItem(id);
+  // ...
+}
+
+// app/items/[id]/page.tsx
+import Item, { preload, checkIsAvailable } from '@/components/Item';
+
+export default async function Page({ params: { id } }: { params: { id: string } }) {
+  // starting loading item data
+  preload(id);
+  // perform another asynchronous task
+  const isAvailable = await checkIsAvailable();
+
+  return isAvailable ? <Item id={id} /> : null;
+}
+```
+
+코드를 해석해보면, preload와 Item 컴포넌트를 만든다. getItem은 외부에서 선언한 API요청을 Promise로 포장한 것 같다.
+
+이제 page 컴포넌트에서 이를 import 해오며, checkIsAvailable도 같이 가져온다. NextJS는 프레임워크이니까, checkIsAvailable를 따로 선언하지 않았어도 가져올 수 있다.
+
+Item은 컴포넌트이고, isAvailable 유효한 값이 되는 경우에만 렌더링 된다.
+preload는 preload를 실행한다는 것 같고,
+isAvailable은 다른 비동기 작업을 수행한다는 것 같은데.. 졸리다
