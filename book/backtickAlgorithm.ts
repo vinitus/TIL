@@ -8,9 +8,6 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
   // 줄바꿈을 기준으로 배열로 나누기
   const splitedMarkdown = markdown.split('\n');
 
-  // 문자열을 미리 하나 선언하고, 조건에 맞게 바꿔가야한다고 생각이 듬
-  let result = '';
-
   // statement를 기반으로 한 정규식 만들기
   const { include, exclude, excludeTag } = filterTarget;
 
@@ -34,22 +31,19 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
     const excludeMatchedWords = [...excludeMatchedWordIter];
 
     if (!includeMatchedWords.length) return;
+
     let flag = true;
 
     includeMatchedWords.forEach((includeWordArr) => {
       const { 0: includeWord, index: includeIndex } = includeWordArr;
 
-      if (includeIndex === undefined) {
-        return;
-      }
+      if (includeIndex === undefined) return;
 
       if (excludeMatchedWords.length) {
         excludeMatchedWords.forEach((excludeWordArr) => {
           const { 0: excludeWord, index: excludeIndex } = excludeWordArr;
           // 연관없는 단어에 대한 종료처리
-          if (!new RegExp(`${includeWord}`, 'gi').test(excludeWord)) {
-            return;
-          }
+          if (!new RegExp(`${includeWord}`, 'gi').test(excludeWord)) return;
 
           // 띄어져있는 단어에 대한 처리
           if (new RegExp(`\\b${includeWord}\\b`, 'gi').test(excludeWord)) {
@@ -57,9 +51,7 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
             const { index } = [...excludeWord.matchAll(new RegExp(`\\b${includeWord}\\b`, 'gi'))][0];
 
             // typescript undefined 에러 제거를 위한 조건문, 이 상황은 나올 이유가 없음
-            if (index === undefined || !excludeIndex === undefined) {
-              return;
-            }
+            if (index === undefined) return;
 
             if (includeIndex - index === excludeIndex) {
               flag = false;
@@ -120,7 +112,8 @@ function map<T>(arr: T[], f: (arg: T) => T) {
 }
 
 function forEach<T>(arr: T[], f: (arg: T) => void) {
-  for (const item of arr) {
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
     f(item);
   }
 }
