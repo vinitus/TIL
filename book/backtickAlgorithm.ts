@@ -72,14 +72,11 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
             flag = false;
             return;
           }
-
-          if (flag) {
-            splitedMarkdown[n] = cutSentenceByWord(splitedMarkdown[n], includeWord, includeIndex, pushWordIdx);
-            pushWordIdx += 2;
-          }
         });
-      } else {
+      }
+      if (flag) {
         splitedMarkdown[n] = cutSentenceByWord(splitedMarkdown[n], includeWord, includeIndex, pushWordIdx);
+        pushWordIdx += 2;
       }
     });
   });
