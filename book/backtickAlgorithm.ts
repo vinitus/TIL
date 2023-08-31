@@ -86,13 +86,13 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
 
 function excludeTagToRegExp(excludeReg: string[]) {
   let tagRegArr: RegExp[] = [];
-  if (excludeReg.indexOf('a')) tagRegArr.push(/\[[^\]]*\]\([^\)]*\)/g);
-  if (excludeReg.indexOf('h1')) tagRegArr.push(/^# /gm);
-  if (excludeReg.indexOf('h2')) tagRegArr.push(/^## /gm);
-  if (excludeReg.indexOf('h3')) tagRegArr.push(/^### /gm);
-  if (excludeReg.indexOf('h4')) tagRegArr.push(/^#### /gm);
-  if (excludeReg.indexOf('h5')) tagRegArr.push(/^##### /gm);
-  if (excludeReg.indexOf('h6')) tagRegArr.push(/^###### /gm);
+  if (excludeReg.includes('a')) tagRegArr.push(/\[[^\]]*\]\([^\)]*\)/g);
+  if (excludeReg.includes('h1')) tagRegArr.push(/^# /gm);
+  if (excludeReg.includes('h2')) tagRegArr.push(/^## /gm);
+  if (excludeReg.includes('h3')) tagRegArr.push(/^### /gm);
+  if (excludeReg.includes('h4')) tagRegArr.push(/^#### /gm);
+  if (excludeReg.includes('h5')) tagRegArr.push(/^##### /gm);
+  if (excludeReg.includes('h6')) tagRegArr.push(/^###### /gm);
 
   const tagReg = new RegExp(tagRegArr.map((regex) => regex.source).join('|'), 'g');
 
