@@ -36,7 +36,7 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
     if (!includeMatchedWords.length) return;
     let flag = true;
 
-    includeMatchedWords.forEach((includeWordArr) => {
+    forEach(includeMatchedWords, (includeWordArr) => {
       const { 0: includeWord, index: includeIndex } = includeWordArr;
 
       if (includeIndex === undefined) {
