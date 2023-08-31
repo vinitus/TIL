@@ -109,3 +109,18 @@ function excludeTagToRegExp(excludeReg: string[]) {
 
   return tagReg;
 }
+
+function map<T>(arr: T[], f: (arg: T) => T) {
+  const newArr = [...arr];
+  forEach<T>(arr, (element: T) => {
+    newArr.push(f(element));
+  });
+
+  return newArr;
+}
+
+function forEach<T>(arr: T[], f: (arg: T) => void) {
+  for (const item of arr) {
+    f(item);
+  }
+}
