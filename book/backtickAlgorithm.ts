@@ -44,7 +44,7 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
       }
 
       if (excludeMatchedWords.length) {
-        excludeMatchedWords.forEach((excludeWordArr) => {
+        forEach(excludeMatchedWords, (excludeWordArr) => {
           const { 0: excludeWord, index: excludeIndex } = excludeWordArr;
           // 연관없는 단어에 대한 종료처리
           if (!new RegExp(`${includeWord}`, 'gi').test(excludeWord)) {
@@ -111,4 +111,11 @@ function cutSentenceByWord(sentence: string, targetWord: string, includeIndex: n
   const newSentence = frontSentence + targetWordWithBacktick + backSentence;
 
   return newSentence;
+}
+
+function forEach<T>(arr: T[], f: (arg: T) => void) {
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    f(item);
+  }
 }
