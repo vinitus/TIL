@@ -74,20 +74,12 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
           }
 
           if (flag) {
-            splitedMarkdown[n] =
-              splitedMarkdown[n].substring(0, includeIndex + pushWordIdx) +
-              `\`${includeWord}\`` +
-              splitedMarkdown[n].substring(includeIndex + includeWord.length + pushWordIdx) +
-              '';
+            splitedMarkdown[n] = cutSentenceByWord(splitedMarkdown[n], includeWord, includeIndex, pushWordIdx);
             pushWordIdx += 2;
           }
         });
       } else {
-        splitedMarkdown[n] =
-          splitedMarkdown[n].substring(0, includeIndex + pushWordIdx) +
-          `\`${includeWord}\`` +
-          splitedMarkdown[n].substring(includeIndex + includeWord.length + pushWordIdx) +
-          '';
+        splitedMarkdown[n] = cutSentenceByWord(splitedMarkdown[n], includeWord, includeIndex, pushWordIdx);
       }
     });
   });
@@ -108,4 +100,18 @@ function excludeTagToRegExp(excludeReg: string[]) {
   const tagReg = new RegExp(tagRegArr.map((regex) => regex.source).join('|'), 'g');
 
   return tagReg;
+}
+
+function cutSentenceByWord(sentence: string, targetWord: string, includeIndex: number, pushWordIndex: number) {
+  const sliceIndex = includeIndex + pushWordIndex;
+  const frontSentence = sentence.substring(0, sliceIndex);
+
+  const pushedByTargetWord = sliceIndex + targetWord.length;
+  const backSentence = sentence.substring(pushedByTargetWord);
+
+  const targetWordWithBacktick = `\`${targetWord}\``;
+
+  const newSentence = frontSentence + targetWordWithBacktick + backSentence;
+
+  return newSentence;
 }
