@@ -40,7 +40,7 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
       if (includeIndex === undefined) return;
 
       if (excludeMatchedWords.length) {
-        excludeMatchedWords.forEach((excludeWordArr) => {
+        forEach<RegExpMatchArray>(excludeMatchedWords, (excludeWordArr) => {
           const { 0: excludeWord, index: excludeIndex } = excludeWordArr;
           // 연관없는 단어에 대한 종료처리
           if (!new RegExp(`${includeWord}`, 'gi').test(excludeWord)) return;
