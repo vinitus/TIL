@@ -66,20 +66,13 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
           }
 
           if (flag) {
-            splitedMarkdown[n] =
-              splitedMarkdown[n].substring(0, includeIndex + pushWordIdx) +
-              `\`${includeWord}\`` +
-              splitedMarkdown[n].substring(includeIndex + includeWord.length + pushWordIdx) +
-              '';
+            splitedMarkdown[n] = splitedMarkdown[n] = cutSentenceByWord(splitedMarkdown[n], includeWord, includeIndex, pushWordIdx);
+
             pushWordIdx += 2;
           }
         });
       } else {
-        splitedMarkdown[n] =
-          splitedMarkdown[n].substring(0, includeIndex + pushWordIdx) +
-          `\`${includeWord}\`` +
-          splitedMarkdown[n].substring(includeIndex + includeWord.length + pushWordIdx) +
-          '';
+        splitedMarkdown[n] = splitedMarkdown[n] = cutSentenceByWord(splitedMarkdown[n], includeWord, includeIndex, pushWordIdx);
       }
     });
   });
@@ -116,4 +109,16 @@ function forEach<T>(arr: T[], f: (arg: T) => void) {
     const item = arr[i];
     f(item);
   }
+}
+
+function cutSentenceByWord(sentence: string, targetWord: string, includeIndex: number, pushWordIndex: number) {
+  const sliceIndex = includeIndex + pushWordIndex;
+  const frontSentence = sentence.substring(0, sliceIndex);
+
+  const pushedByTargetWord = sliceIndex + targetWord.length;
+  const backSentence = sentence.substring(pushedByTargetWord);
+
+  const newSentence = frontSentence + targetWord + backSentence;
+
+  return newSentence;
 }
