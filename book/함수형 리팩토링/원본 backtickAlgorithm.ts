@@ -36,7 +36,7 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
     if (!includeMatchedWords.length) return;
     let flag = true;
 
-    forEach(includeMatchedWords, (includeWordArr) => {
+    includeMatchedWords.forEach((includeWordArr) => {
       const { 0: includeWord, index: includeIndex } = includeWordArr;
 
       if (includeIndex === undefined) {
@@ -44,7 +44,7 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
       }
 
       if (excludeMatchedWords.length) {
-        forEach(excludeMatchedWords, (excludeWordArr) => {
+        excludeMatchedWords.forEach((excludeWordArr) => {
           const { 0: excludeWord, index: excludeIndex } = excludeWordArr;
           // 연관없는 단어에 대한 종료처리
           if (!new RegExp(`${includeWord}`, 'gi').test(excludeWord)) {
@@ -72,11 +72,22 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
             flag = false;
             return;
           }
+
+          if (flag) {
+            splitedMarkdown[n] =
+              splitedMarkdown[n].substring(0, includeIndex + pushWordIdx) +
+              `\`${includeWord}\`` +
+              splitedMarkdown[n].substring(includeIndex + includeWord.length + pushWordIdx) +
+              '';
+            pushWordIdx += 2;
+          }
         });
-      }
-      if (flag) {
-        splitedMarkdown[n] = cutSentenceByWord(splitedMarkdown[n], includeWord, includeIndex, pushWordIdx);
-        pushWordIdx += 2;
+      } else {
+        splitedMarkdown[n] =
+          splitedMarkdown[n].substring(0, includeIndex + pushWordIdx) +
+          `\`${includeWord}\`` +
+          splitedMarkdown[n].substring(includeIndex + includeWord.length + pushWordIdx) +
+          '';
       }
     });
   });
@@ -86,36 +97,15 @@ export default function backtickAlgorithm(markdown: string, filterTarget: Filter
 
 function excludeTagToRegExp(excludeReg: string[]) {
   let tagRegArr: RegExp[] = [];
-  if (excludeReg.includes('a')) tagRegArr.push(/\[[^\]]*\]\([^\)]*\)/g);
-  if (excludeReg.includes('h1')) tagRegArr.push(/^# /gm);
-  if (excludeReg.includes('h2')) tagRegArr.push(/^## /gm);
-  if (excludeReg.includes('h3')) tagRegArr.push(/^### /gm);
-  if (excludeReg.includes('h4')) tagRegArr.push(/^#### /gm);
-  if (excludeReg.includes('h5')) tagRegArr.push(/^##### /gm);
-  if (excludeReg.includes('h6')) tagRegArr.push(/^###### /gm);
+  if (excludeReg.indexOf('a')) tagRegArr.push(/\[[^\]]*\]\([^\)]*\)/g);
+  if (excludeReg.indexOf('h1')) tagRegArr.push(/^# /gm);
+  if (excludeReg.indexOf('h2')) tagRegArr.push(/^## /gm);
+  if (excludeReg.indexOf('h3')) tagRegArr.push(/^### /gm);
+  if (excludeReg.indexOf('h4')) tagRegArr.push(/^#### /gm);
+  if (excludeReg.indexOf('h5')) tagRegArr.push(/^##### /gm);
+  if (excludeReg.indexOf('h6')) tagRegArr.push(/^###### /gm);
 
   const tagReg = new RegExp(tagRegArr.map((regex) => regex.source).join('|'), 'g');
 
   return tagReg;
-}
-
-function cutSentenceByWord(sentence: string, targetWord: string, includeIndex: number, pushWordIndex: number) {
-  const sliceIndex = includeIndex + pushWordIndex;
-  const frontSentence = sentence.substring(0, sliceIndex);
-
-  const pushedByTargetWord = sliceIndex + targetWord.length;
-  const backSentence = sentence.substring(pushedByTargetWord);
-
-  const targetWordWithBacktick = `\`${targetWord}\``;
-
-  const newSentence = frontSentence + targetWordWithBacktick + backSentence;
-
-  return newSentence;
-}
-
-function forEach<T>(arr: T[], f: (arg: T) => void) {
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    f(item);
-  }
 }
