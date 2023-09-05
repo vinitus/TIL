@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>함수형 코딩 예제</title>
+  </head>
+  <body>
+    <button id="cnt">cnt</button>
+    <div style="margin-top: 10px">
+      <div id="total1" style="font-size: 20px; border: 1px solid black; display: inline; padding: 2px 4px">1</div>
+      <div id="total2" style="font-size: 20px; border: 1px solid black; display: inline; padding: 2px 4px">1</div>
+    </div>
+    <script>
+      let cnt = 2;
+
+      async function fetchNumber() {
+        workQueue.push('worker');
+        const div = document.querySelector('#total1');
+        const total = Number(div.innerText);
+
+        const res = await new Promise((resolve) => {
+          if (cnt > 0) cnt -= 1;
+          const date = new Date();
+          const addNumber = Number(date.getMilliseconds());
+          const multiplyNumber = Number(date.getSeconds());
+          console.log(calc(total, addNumber, multiplyNumber), cnt, total, addNumber, multiplyNumber);
+          tag2UpdateFn(addNumber, multiplyNumber);
+
+          setTimeout(() => {
+            resolve({ addNumber, multiplyNumber });
+            workQueue.pop();
+          }, cnt * 500);
+        });
+
+        const { addNumber, multiplyNumber } = res;
+
+        div.innerText = calc(total, addNumber, multiplyNumber);
+      }
+
+      function calc(n, a, b) {
+        return (n + a) * b;
+      }
+
+      function tag2UpdateFn(a, b) {
+        const div = document.querySelector('#total2');
+        const total = Number(div.innerText);
+        div.innerText = calc(total, a, b);
+      }
+
+      const workQueue = [];
+
+      function worker() {
+        if (workQueue.length === 0) {
+          fetchNumber();
+        } else {
+          return setTimeout(worker, 0);
+        }
+      }
+
+      const btn = document.querySelector('#cnt');
+
+      btn.addEventListener('click', worker);
+    </script>
+  </body>
+</html>

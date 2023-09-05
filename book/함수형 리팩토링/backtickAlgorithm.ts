@@ -186,3 +186,28 @@ function map<T>(arr: T[], f: (arg: T) => T) {
   forEach(arr, (element) => newArr.push(f(element)));
   return newArr;
 }
+
+console.clear();
+
+// 구구단을 뒷자리를 고정하는 기준이기에 역 구구단
+function reverseGugudan(n, maxN) {
+  // 한줄씩 출력할 한 줄의 문자열
+  let result = '';
+
+  // first는 앞자리, second는 뒷자리를 의미
+  for (let second = 1; second <= 9; second += 1) {
+    // 4에 대한 예외처리
+    if (second === 4) continue;
+    for (let first = n; first <= maxN; first += 1) {
+      const item = `${first} * ${second} = ${first * second}`;
+      result += item + ' ';
+      result += ' '.repeat(12 - item.length);
+    }
+    console.log(result.trim());
+    result = '';
+  }
+}
+
+reverseGugudan(2, 5);
+console.log(' ');
+reverseGugudan(6, 9);
