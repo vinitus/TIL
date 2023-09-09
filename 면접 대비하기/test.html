@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="content1" />
+    <div id="target1"></div>
+    <div>입력창에</div>
+    <div>tmp" onerror="alert('해킹 시도!')</div>
+    <div>를 입력하고 엔터를 눌러보세요.</div>
+
+    <input type="text" id="content2" />
+    <div id="target2"></div>
+    <div>입력창에</div>
+    <div>&lt;div onclick="alert('해킹 시도!')">안녕하세요!&lt;/div></div>
+    <div>를 입력하고 엔터를 누르고 안녕하세요!를 클릭해보세요.</div>
+    <script>
+      const tag1 = document.querySelector('#content1');
+      const target1 = document.querySelector('#target1');
+      tag1.addEventListener('keyup', (event) => {
+        if (event.key !== 'Enter') return;
+        console.log(event);
+        target1.innerHTML = `<img src="${event.target.value}" alt="test" />`;
+      });
+      tag1.addEventListener('change', (event) => {
+        console.log(event);
+        target1.innerHTML = `<img src="${event.target.value}" alt="test" />`;
+      });
+
+      const tag2 = document.querySelector('#content2');
+      const target2 = document.querySelector('#target2');
+      tag2.addEventListener('keyup', (event) => {
+        if (event.key !== 'Enter') return;
+        target2.innerHTML = `<img src="${event.target.value}" alt="test" />`;
+      });
+      tag2.addEventListener('change', (event) => {
+        target2.innerHTML = event.target.value;
+      });
+    </script>
+  </body>
+</html>
