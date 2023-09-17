@@ -58,7 +58,9 @@
           const work = workQueue.shift();
           const { callback, value } = work;
 
-          if (callback() instanceof Promise) console.log('hi');
+          if (callback instanceof Promise) console.log('hi');
+          work.value = callback();
+          console.log(work.value);
         }
 
         return () => {
