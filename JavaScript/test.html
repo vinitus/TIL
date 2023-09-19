@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      try {
+        console.log(a);
+        let a = 'a';
+      } catch (e) {
+        console.log(e);
+      }
+
+      try {
+        console.log(b);
+      } catch (e) {
+        console.log(e);
+      }
+
+      let c = 1;
+      console.log(c);
+
+      try {
+        console.log(c);
+        const c = 'c';
+      } catch (e) {
+        console.log(e);
+      }
+    </script>
+  </body>
+</html>
