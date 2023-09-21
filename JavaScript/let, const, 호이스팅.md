@@ -1,6 +1,6 @@
 let과 const의 작동방식과 var과는 무엇이 다른가를 살펴본다.
 
-## let에 대한 에러 메시지는 사실 다르다
+## let, const에 대한 에러 메시지는 사실 다르다
 
 ```javascript
 try {
@@ -29,7 +29,7 @@ try {
 
 ![image](https://github.com/vinitus/interview/assets/97886013/81317ea2-611d-48cd-805f-9c2280bd525d)
 
-에러의 타입을 보면 좀 다르다.
+에러의 메시지을 보면 좀 다르다.
 
 1. ReferenceError: Cannot access 'a' before initialization
 
