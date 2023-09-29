@@ -155,3 +155,7 @@ Array.prototype.newPush = function (...args) {
   this.push(...args);
 };
 ```
+
+### reference
+
+[https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects/Object_prototypes](https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects/Object_prototypes)
