@@ -1,0 +1,64 @@
+<h1>Number 타입의 문자를 부동소수점으로 분해하는 것</h1>
+<script>
+  function deconstruct(number) {
+    let sign = 1; // 부호
+    let coefficient = number; // 계수
+    let exponent = 0; // 지수
+
+    // 부호의 분리
+    if (coefficient < 0) {
+      coefficient = -coefficient; // 부호가 추출된 Number이 됨
+      sign = -1;
+    }
+
+    if (Number.isFinite(number) && number !== 0) {
+      exponent = -1128;
+      let reduction = coefficient;
+      while (reduction !== 0) {
+        // reduction은 반드시 0이 된다. Number.MIN_VALUE보다 작은 값은 0이 되기 때문
+        exponent += 1;
+        reduction /= 2;
+      }
+      reduction = exponent;
+      while (reduction > 0) {
+        coefficient /= 2;
+        reduction -= 1;
+      }
+      while (reduction < 0) {
+        coefficient *= 2;
+        reduction += 1;
+      }
+    }
+
+    return {
+      sign,
+      coefficient,
+      exponent,
+      number,
+    };
+  }
+</script>
+
+<li>>이 함수의 결과의 의미는 다음과 같다.</li>
+<li>>sign은 부호를 의미한다. 1 or -1만 가질 수 있다.</li>
+<li>>coefficient는 number의 절대값이다.</li>
+<li>>exponent는 54짜리 비트의 기준에서 필요한 2진수의 지릿수를 나타낸다.</li>
+
+<script>
+  console.log(deconstruct(Number.MAX_SAFE_INTEGER)); // { sign: 1, coefficient: 9007199254740991, exponent: 0, number: 9007199254740991}
+  console.log(deconstruct(10)); // { sign: 1, coefficient: 11258999068426240, exponent: -50, number: 10 }
+  console.log(deconstruct(4)); /// { sign: 1, coefficient: 9007199254740992, exponent: -51, number: 4 }
+  console.log(deconstruct(3)); /// { sign: 1, coefficient: 6755399441055744, exponent: -51, number: 3 }
+  console.log(deconstruct(2)); /// { sign: 1, coefficient: 9007199254740992, exponent: -52, number: 2 }
+  console.log(deconstruct(1)); /// { sign: 1, coefficient: 9007199254740992, exponent: -53, number: 1 }
+  console.log(deconstruct(0)); /// { sign: 1, coefficient: 0, exponent: 0, number: 0 }
+
+  console.log(deconstruct(-1)); /// { sign: -1, coefficient: 9007199254740992, exponent: -53, number: -1 }
+
+  console.log(deconstruct(0.5)); // { sign: 1, coefficient: 9007199254740992, exponent: -54, number: 0.5 }
+  console.log(deconstruct(0.1)); // { sign: 1, coefficient: 7205759403792794, exponent: -56, number: 0.1 }
+  console.log(deconstruct(0.01)); // { sign: 1, coefficient: 11529215046068470, exponent: -60, number: 0.01, };
+
+  console.log(deconstruct(0.3)); // { sign: 1, coefficient: 10808639105689190, exponent: -55, number: 0.3 }
+  console.log(deconstruct(0.1 + 0.2)); // { sign: 1, coefficient: 10808639105689192, exponent: -55, number: 0.30000000000000004}
+</script>
